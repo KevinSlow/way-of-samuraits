@@ -1,0 +1,33 @@
+.nav {
+    grid-area: n;
+    background: burlywood;
+    padding: 20px;
+}
+.item a{
+    color: white;
+    text-decoration: none;
+}
+.item a.active{
+    color: red;
+}
+
+.friendsBlocks {
+    display: flex;
+    align-items: center;
+}
+.friendsBlocks>div>img{
+    max-width: 100%;
+}
+.friendsBlock{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friendsImg{
+    width: 35px;
+    height: 35px;
+    max-width: 35%;
+    border-radius: 100%;
+}
