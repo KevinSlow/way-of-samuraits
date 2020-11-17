@@ -10,11 +10,16 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Route} from "react-router-dom";
+import {RootStateType} from "./redux/state";
 
 
+type AppPropsType = {
+    state: RootStateType
+    addPosts: () => void,
+    updateNewPostText:(newText:string)=>void
+}
 
-
-const App = (props: any) => { /////?????????????????????????
+const App = (props: AppPropsType) => { 
     return (
         <div className="app-wrapper">
             <Header/>
@@ -24,6 +29,7 @@ const App = (props: any) => { /////?????????????????????????
                     state={props.state.dialogsPage}/>)}
                        path="/dialogs"/>
                 <Route exact render={() => (<Profile
+                    updateNewPostText={props.updateNewPostText}
                     state={props.state.profilePage}
                     addPosts={props.addPosts}
                 />)}

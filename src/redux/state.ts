@@ -21,8 +21,9 @@ type sideBar = {
     imgUrl: string
 }
 
-type ProfilePageType = {
-    posts: Array<PostType>
+export type ProfilePageType = {
+    posts: Array<PostType>,
+    newPostText: string
 }
 
 type DialogPageType = {
@@ -37,7 +38,7 @@ type SideBarType = {
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogPageType
-    sideBar: SideBarType
+    sideBar: SideBarType,
 }
 
 
@@ -54,6 +55,7 @@ let state:RootStateType = {
             {id: 5, message: "Trysa", likesCount: 100},
             {id: 6, message: "Fine", likesCount: 3}
         ],
+        newPostText: "it-kamasutra.com!"
     },
     dialogsPage: {
         messages: [
@@ -87,12 +89,16 @@ let state:RootStateType = {
     },
 };
 
+export let updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = (newText);
+    reRenderEntireTree(state);
+}
 
-export let addPost = (postMessage: string) => {
+export let addPost = () => {
     debugger
     let newPosts = {
         id: 5,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likesCount: 0
     };
 

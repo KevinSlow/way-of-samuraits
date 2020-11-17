@@ -2,9 +2,11 @@ import React from "react";
 import s from './MyPosts.module.css';
 import Post from "./Post/Post";
 
-type MyPostsPropsType = {
+export type MyPostsPropsType = {
     post: Array<PostType>,
-    addPosts: (txt:string) => typeof txt , //////??????????????????/
+    addPosts: () => void ,
+    updateNewPostText:(text:string)=>void
+    newPostText: string
 }
 
 export type PostType = {
@@ -25,14 +27,18 @@ const MyPosts = (props: MyPostsPropsType) => {
     let newPostElement: any = React.createRef();   //////?????????????????//
 
     let addPosts = () => {
-        let txt = newPostElement.current.value;
         try{
-            props.addPosts(txt);
-            newPostElement.current.value = "";
+            props.addPosts();
+            props.updateNewPostText('');
         } catch(e){
             alert('Ошибка ' + e.name + ":" + e.message);
         }
     };
+
+    let onPostChange = () => {
+        let text = newPostElement.current.value;
+        props.updateNewPostText(text);
+    }
 
     return (
         <div>
@@ -40,7 +46,7 @@ const MyPosts = (props: MyPostsPropsType) => {
                 <h3>New Post</h3>
                 <div>
                     <div>
-                        <textarea ref={newPostElement}></textarea>
+                        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} />
                     </div>
                     <div>
                         <button onClick={addPosts}>Add Post</button>

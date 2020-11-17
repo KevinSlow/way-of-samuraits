@@ -25,12 +25,12 @@ const Dialogs = (props: StatePropsType) => {
     let dialogElements = props.state.dialogs.map((d) => <DialogItem name={d.name} id={d.id}/>)
 
     let messagesElements = props.state.messages.map((m) => (
-        <Message messsage={m.message}/>
+        <Message message={m.message}/>
     ))
 
 
 
-    let newDialogElement: any = React.createRef();
+    let newDialogElement: any = React.createRef();  //////???????????
 
     let newDialog = () => {
         let txt = newDialogElement.current.value;
