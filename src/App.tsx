@@ -10,13 +10,13 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Route} from "react-router-dom";
-import {RootStateType} from "./redux/state";
+import {RootStateType, RootStoreType} from "./redux/state";
 
 
 type AppPropsType = {
-    state: RootStateType
-    addPosts: () => void,
-    updateNewPostText:(newText:string)=>void
+    store: RootStoreType
+    state: RootStateType,
+    dispatch: (action: any) => void
 }
 
 const App = (props: AppPropsType) => { 
@@ -26,12 +26,12 @@ const App = (props: AppPropsType) => {
             <Nav state={props.state.sideBar}/>
             <div className="app-wrapper-content">
                 <Route exact render={() => (<Dialogs
-                    state={props.state.dialogsPage}/>)}
+                   store={props.store}
+                />)}
                        path="/dialogs"/>
                 <Route exact render={() => (<Profile
-                    updateNewPostText={props.updateNewPostText}
                     state={props.state.profilePage}
-                    addPosts={props.addPosts}
+                    dispatch={props.dispatch}
                 />)}
                        path="/profile"
 

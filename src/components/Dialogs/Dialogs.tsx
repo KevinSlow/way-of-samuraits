@@ -2,14 +2,19 @@ import React from "react";
 import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItems";
 import Message from "./Message/Message";
+import {
+    addDialogActionCreator,
+    updateNewDialogTextActionCreator
+} from "../../redux/dialogsReducer";
+import store, {RootStoreType} from "../../redux/state";
 
 type StatePropsType = {
-    state: DialogPropsType
+    store: RootStoreType,
 };
 
 type DialogPropsType = {
     dialogs: Array<DialogsItemsType>,
-    messages: Array<MessagesItemsType>
+    messages: Array<MessagesItemsType>,
 }
 type DialogsItemsType = {
     name: string,
@@ -22,20 +27,33 @@ type MessagesItemsType = {
 
 const Dialogs = (props: StatePropsType) => {
 
-    let dialogElements = props.state.dialogs.map((d) => <DialogItem name={d.name} id={d.id}/>)
+    let state = store.getState().dialogsPage;
 
-    let messagesElements = props.state.messages.map((m) => (
+
+    let dialogElements = state.dialogs.map((d) => <DialogItem name={d.name} id={d.id}/>)
+
+    let messagesElements = state.messages.map((m) => (
         <Message message={m.message}/>
     ))
 
 
 
-    let newDialogElement: any = React.createRef();  //////???????????
+    let newDialogElement: any = React.createRef();
 
     let newDialog = () => {
-        let txt = newDialogElement.current.value;
-        alert(txt)
+        try {
+            store.dispatch(addDialogActionCreator());
+        } catch (e) {
+            alert('Ошибка ' + e.name + ":" + e.message);
+        }
     }
+
+    let onDialogChange = (e: any) => {
+        let text = e.target.value;
+        let action = updateNewDialogTextActionCreator(text);
+        store.dispatch(action);
+    }
+
 
 
     return (
@@ -49,7 +67,7 @@ const Dialogs = (props: StatePropsType) => {
                         {messagesElements}
                     </ul>
                     <div className="write">
-                        <textarea ref={newDialogElement}/>
+                        <textarea onChange={onDialogChange} ref={newDialogElement} value={state.newDialogText}/>
                         <button type="button" onClick={newDialog} className={s.send}></button>
                     </div>
                 </div>
