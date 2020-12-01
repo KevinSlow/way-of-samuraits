@@ -1,6 +1,7 @@
 import React from "react";
 import s from './Nav.module.css';
 import {NavLink} from "react-router-dom";
+import store from "../../redux/store";
 
 
 type NavStateType = {
@@ -18,9 +19,12 @@ type FriendsType = {
 }
 
 
-const Nav = (props: NavStateType) => {
+const Nav = (props: any) => {
 
-    let friendsMessages = props.state.friends.map((f) => (
+    let state = store.getState().sideBar;
+
+
+    let friendsMessages = state.friends.map((f: FriendsType) => (
         <div className={s.friendsBlock}>
             <img className={s.friendsImg} src={f.imgUrl} alt="friends"/>
             <NavLink to={"/dialogs/" + f.id}><p>{f.name}</p></NavLink>

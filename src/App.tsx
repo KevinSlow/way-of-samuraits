@@ -10,28 +10,27 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {Route} from "react-router-dom";
-import {RootStateType, RootStoreType} from "./redux/state";
+import {RootStateType, RootStoreType} from "./redux/store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 
 type AppPropsType = {
     store: RootStoreType
-    state: RootStateType,
-    dispatch: (action: any) => void
 }
 
-const App = (props: AppPropsType) => { 
+const App = () => {
+
     return (
         <div className="app-wrapper">
             <Header/>
-            <Nav state={props.state.sideBar}/>
+            <Nav/>
             <div className="app-wrapper-content">
-                <Route exact render={() => (<Dialogs
-                   store={props.store}
+                <Route exact render={() => (<DialogsContainer
+
                 />)}
                        path="/dialogs"/>
                 <Route exact render={() => (<Profile
-                    state={props.state.profilePage}
-                    dispatch={props.dispatch}
+
                 />)}
                        path="/profile"
 
