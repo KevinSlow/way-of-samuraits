@@ -52,25 +52,30 @@ export type ActionType = ActionA | ActionB;
 
 
 const dialogsReducer = (state = initialState, action: ActionType) => {
+
+
     switch (action.type) {
         case UPDATE_NEW_DIALOG_TEXT:
-            state.newDialogText = (action.newDialogText);
-            break;
-        case ADD_DIALOG:
-            let newDialogs = {
-                id: 5,
-                message: state.newDialogText,
+            return  {
+                ...state,
+                newDialogText: action.newDialogText
             };
-            state.newDialogText = '';
-            state.messages.push(newDialogs);
-            break;
+
+        case ADD_DIALOG:
+            let newDialogText = state.newDialogText;
+            return  {
+                ...state,
+                newDialogText: '',
+                messages: [...state.messages, {id: 6, message: newDialogText}]
+            };
+
     }
     return state;
 }
 
 
 export const addDialogActionCreator = () => ({
-    type: ADD_DIALOG,
+    type:ADD_DIALOG,
 });
 
 export const updateNewDialogTextActionCreator = (text: any) => ({

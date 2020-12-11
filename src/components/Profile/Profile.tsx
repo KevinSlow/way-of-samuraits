@@ -1,18 +1,17 @@
 import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-import {Action} from "../../redux/profileReducer";
-import {ProfilePageType, RootStoreType} from "../../redux/store";
 import MyPostsContainer from "./Posts/MyPostsContainer";
 
 
 
 
-const Profile = () => {
+const Profile = (props: any) => {
 
+    // @ts-ignore
     return (
         <div>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer />
         </div>
     );

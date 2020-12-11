@@ -29,24 +29,25 @@ const Dialogs = (props: StatePropsType) => {
     let state = props.dialogsPage;
 
 
-    let dialogElements = state.dialogs.map((d) => <DialogItem name={d.name} id={d.id}/>)
+    let dialogElements = state.dialogs.map((d) => <DialogItem name={d.name} key={d.id} id={d.id}/>)
 
     let messagesElements = state.messages.map((m) => (
-        <Message message={m.message}/>
+        <Message key={m.id} message={m.message}/>
     ))
 
 
     let newDialogElement: any = React.createRef();
 
     let newDialog = () => {
-        try {
+        // try {
             props.sendMessage();
-        } catch (e) {
-            alert('Ошибка ' + e.name + ":" + e.message);
-        }
+        // } catch (e) {
+        //     alert('Ошибка ' + e.name + ":" + e.message);
+        // }
     }
 
     let onDialogChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+       debugger
         let text = e.target.value;
         props.updateNewMessageBody(text)
     }

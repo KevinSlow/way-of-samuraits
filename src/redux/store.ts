@@ -39,6 +39,7 @@ export type sideBarType = {
 };
 
 export type RootStateType = {
+    usersPage: any;
     profilePage: ProfilePageType
     dialogsPage: DialogPageType
     sideBar: sideBarType,
@@ -105,6 +106,7 @@ let store: RootStoreType = {
                 },
             ],
         },
+        usersPage: null
     },
     getState() {
         return this._state;
@@ -118,6 +120,7 @@ let store: RootStoreType = {
     },
     dispatch: function (action: any) {
 
+        // @ts-ignore
         this._state.profilePage = profileReducer(this._state.profilePage, action);
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
 
