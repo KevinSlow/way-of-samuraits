@@ -23,11 +23,27 @@ export const usersAPI = {
                 return response.data
             });
     },
-    getHeader ()  {
+    unfollowUsers(userId: number)  {
+        return instanse.delete(`/follow/${userId}`)
+            .then(response => {
+                return response.data
+            });
+    },
+    followUsers(userId:number)  {
+        return instanse.post(`/follow/${userId}`)
+            .then(response => {
+                return response.data
+            });
+    },
+
+}
+
+
+export const authAPI =  {
+    me(){
         return instanse.get(`auth/me`)
             .then(response => {
                 return response.data
             });
     }
 }
-

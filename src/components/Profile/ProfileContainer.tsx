@@ -1,13 +1,9 @@
-import React,{Component} from "react";
-import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import MyPostsContainer from "./Posts/MyPostsContainer";
+import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import { connect } from "react-redux";
 import {setUserProfile} from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom";
-import Nav from "../Navbar/Nav";
-import {usersAPI} from "../../api/api";
+
 
 
 
@@ -16,23 +12,13 @@ import {usersAPI} from "../../api/api";
 export class ProfileContainer extends React.Component<any, any> {
 
     componentDidMount() {
-        debugger
-        let userId = this.props.match.params.userId;
-        if(!userId){
-            userId = 2;
-        }
-        usersAPI.getUsersProfile(userId)
-            .then((data) => {
-                this.props.setUserProfile(data)
-            })
+        this.props.setUserProfile(this.props.match.params.userId);
     }
 
 
     render() {
-        // @ts-ignore
         return (
             <div>
-
                 <Profile {...this.props} profile={this.props.profile}  />
             </div>
         );
