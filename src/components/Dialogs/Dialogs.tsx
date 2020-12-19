@@ -3,17 +3,20 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItems";
 import Message from "./Message/Message";
 import {DialogPageType} from "../../redux/store";
+import {Field, reduxForm} from "redux-form";
 
 
 type StatePropsType = {
     dialogsPage: DialogPageType
-    sendMessage: () => void,
+    sendMessage: (newMessageBody: string) => void,
     updateNewMessageBody: (text: string) => void,
+    isAuth: boolean
 };
 
 type DialogPropsType = {
     dialogs: Array<DialogsItemsType>,
     messages: Array<MessagesItemsType>,
+
 }
 type DialogsItemsType = {
     name: string,
@@ -21,7 +24,8 @@ type DialogsItemsType = {
 }
 
 type MessagesItemsType = {
-    message: string
+    message: string,
+
 }
 
 const Dialogs = (props: StatePropsType) => {
@@ -36,20 +40,9 @@ const Dialogs = (props: StatePropsType) => {
     ))
 
 
-    let newDialogElement: any = React.createRef();
-
-    let newDialog = () => {
-        // try {
-            props.sendMessage();
-        // } catch (e) {
-        //     alert('Ошибка ' + e.name + ":" + e.message);
-        // }
-    }
-
-    let onDialogChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-       debugger
-        let text = e.target.value;
-        props.updateNewMessageBody(text)
+    const addNewMessage = (values: any) => {
+        console.log(values)
+        props.sendMessage(values.newMessageBody);
     }
 
 
@@ -63,15 +56,28 @@ const Dialogs = (props: StatePropsType) => {
                     <ul className={s.chatThread}>
                         {messagesElements}
                     </ul>
-                    <div className="write">
-                        <textarea onChange={onDialogChange} ref={newDialogElement} value={state.newDialogText}/>
-                        <button type="button" onClick={newDialog} className={s.send}></button>
-                    </div>
+                    <ReduxMessageForm onSubmit={addNewMessage}/>
                 </div>
             </div>
 
         </div>
     )
 };
+
+const AddMessageForm = (props: any) => {
+    return (
+        <div className="write">
+            <form onSubmit={props.handleSubmit}>
+                <Field component={"textarea"} name={"newMessageBody"}  placeholder={"Enter your message"}/>
+                <button  className={s.send}></button>
+            </form>
+        </div>
+    )
+}
+
+const ReduxMessageForm = reduxForm({
+    form: "dialogAddMessageForm"
+})(AddMessageForm)
+
 
 export default Dialogs;

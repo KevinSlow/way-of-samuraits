@@ -122,6 +122,7 @@ let store: RootStoreType = {
 
         // @ts-ignore
         this._state.profilePage = profileReducer(this._state.profilePage, action);
+        // @ts-ignore
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
 
         // @ts-ignore

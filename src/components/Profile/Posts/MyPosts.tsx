@@ -1,11 +1,10 @@
 import React from "react";
-import s from './MyPosts.module.css';
 import Post from "./Post/Post";
+import {MyPost} from "./MyPost";
 
 export type MyPostsPropsType = {
     post: Array<PostType>,
-    addPosts: () => void,
-    newPostText: string
+    addPosts: (newPostText: string) => void,
     updateNewPostText: (text: string) => void,
 }
 
@@ -17,50 +16,18 @@ export type PostType = {
 
 
 
-
-
 const MyPosts = (props: MyPostsPropsType) => {
-
-
-
-    let postsElements = props.post.map((p) => <Post message={p.message} likesCount={p.likesCount}/>)
-
-
-    let newPostElement: any = React.createRef();
-
-    let onAddPosts = () => {
-        debugger
-        // try {
-            props.addPosts();
-            //
-        // } catch (e) {
-        //     alert('Ошибка ' + e.name + ":" + e.message);
-        // }
-    };
-
-    let onPostChange = () => {
-        let text = newPostElement.current.value;
-        props.updateNewPostText(text);
+    let postsElements = props.post.map((p: { message: string; likesCount: number; }) => <Post message={p.message} likesCount={p.likesCount}/>)
+    const onSubmit = (values: any) => {
+        props.addPosts(values.newPostText);
     }
-
     return (
         <div>
-            <div className={s.postsBlock}>
-                <h3>New Post</h3>
-                <div>
-                    <div>
-                        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
-                    </div>
-                    <div>
-                        <button onClick={onAddPosts}>Add Post</button>
-                    </div>
-                </div>
-            </div>
-            <div className={s.posts}>
-                {postsElements}
-            </div>
+            <MyPost onSubmit={onSubmit} elements={postsElements}/>
         </div>
     );
 }
+
+
 
 export default MyPosts;

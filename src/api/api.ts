@@ -18,10 +18,7 @@ export const usersAPI = {
             });
     },
     getUsersProfile (userId: any)  {
-        return instanse.get(`profile/`+ userId)
-            .then(response => {
-                return response.data
-            });
+        return profileAPI.getUsersProfile(userId);
     },
     unfollowUsers(userId: number)  {
         return instanse.delete(`/follow/${userId}`)
@@ -36,6 +33,18 @@ export const usersAPI = {
             });
     },
 
+}
+
+export const profileAPI = {
+    getUsersProfile (userId: any)  {
+        return instanse.get(`profile/`+ userId)
+    },
+    getStatus(userId: any){
+        return instanse.get(`profile/status/`+ userId)
+    },
+    updateStatus(status: any){
+        return instanse.put(`profile/status/`, {status: status})
+    }
 }
 
 

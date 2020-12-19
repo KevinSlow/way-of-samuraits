@@ -1,4 +1,4 @@
-const UPDATE_NEW_DIALOG_TEXT = "UPDATE-NEW-DIALOG-TEXT";
+
 const ADD_DIALOG = "ADD-DIALOG";
 
 const initialState = {
@@ -18,13 +18,12 @@ const initialState = {
         {id: 4, name: "Sveta"},
         {id: 5, name: "Polina"},
         {id: 6, name: "Sasha"}
-    ],
-    newDialogText:  "it-kamasutra.com!"
+    ]
 }
 
 interface ActionA {
     type: 'ADD-DIALOG';
-    newDialogText: string
+    newMessageBody: string
 }
 
 interface ActionB {
@@ -55,17 +54,10 @@ const dialogsReducer = (state = initialState, action: ActionType) => {
 
 
     switch (action.type) {
-        case UPDATE_NEW_DIALOG_TEXT:
-            return  {
-                ...state,
-                newDialogText: action.newDialogText
-            };
-
         case ADD_DIALOG:
-            let newDialogText = state.newDialogText;
+            let newDialogText = action.newMessageBody;
             return  {
                 ...state,
-                newDialogText: '',
                 messages: [...state.messages, {id: 6, message: newDialogText}]
             };
 
@@ -74,14 +66,11 @@ const dialogsReducer = (state = initialState, action: ActionType) => {
 }
 
 
-export const addDialogActionCreator = () => ({
+export const addDialogActionCreator = (newMessageBody:string) => ({
     type:ADD_DIALOG,
+    newMessageBody
 });
 
-export const updateNewDialogTextActionCreator = (text: any) => ({
-    type:UPDATE_NEW_DIALOG_TEXT,
-    newDialogText: text,
-});
 
 
 export default dialogsReducer;

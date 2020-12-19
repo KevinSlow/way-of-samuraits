@@ -1,21 +1,21 @@
 import React from "react";
 import s from './ProfileInfo.module.css';
 import PreLoader from "../../Common/Preloader/Preloader";
-
+import ProfileStatus from "./ProfileStatus";
 
 const ProfileInfo = (props: any) => {
     if(!props.profile){
         return <PreLoader/>
     }
-
     return (
         <div>
-            <div>
-                <img src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png" alt=""/>
-            </div>
+            {/*<div>*/}
+            {/*    <img src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png" alt=""/>*/}
+            {/*</div>*/}
 
             <div className={s.descriptionBlock} >
                 <img src={props.profile.photos.large} alt=""/>
+                    <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
                 <div>
                     <div>{props.profile.aboutMe}</div>
                 </div>
