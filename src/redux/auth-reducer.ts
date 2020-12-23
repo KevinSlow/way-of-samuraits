@@ -33,16 +33,14 @@ export const setAuthUserDataSuccess = (userId: any, email: any, login: any, isAu
 });
 
 
-export const setAuthUserData = () => {
-    return (dispatch: any) => {
-        authAPI.me()
+export const setAuthUserData = () => (dispatch: any) => {
+       return authAPI.me()
             .then((data) => {
                 if (data.resultCode === 0) {
                     let {email, id, login} = data.data;
-                    dispatch(setAuthUserDataSuccess(email, id, login, true));
+                    dispatch(setAuthUserDataSuccess(id, email, login, true));
                 }
             })
-    }
 }
 
 export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {

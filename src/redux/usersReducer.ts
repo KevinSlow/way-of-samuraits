@@ -137,11 +137,13 @@ export const setFollowingProgress = (isFetching: boolean, userId: number) => (
     {type: TOGGLE_FOLLOWING_PROGRESS, isFetching, userId}
 )
 
-
-export const getUsers = (currentPage:any,pageSize:any) => {
+export const requestUsers = (page:number, pageSize:number) => {
     return (dispatch: any) => {
         dispatch(setIsFetching(true));
-        usersAPI.getUsers(currentPage, pageSize)
+        dispatch(setCurrentPage(page));
+
+
+        usersAPI.getUsers(page, pageSize)
             .then((data) => {
                 dispatch(setIsFetching(false))
                 dispatch(setUsers(data.items))
@@ -168,7 +170,7 @@ export const follow = (userId:number) => {
 };
 
 export const unfollow = (userId:number) => {
-debugger
+
     return (dispatch: any) => {
         dispatch(setFollowingProgress(true, userId))
         usersAPI.unfollowUsers(userId)

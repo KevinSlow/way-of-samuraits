@@ -1,16 +1,22 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    follow, getUsers,
+    follow, requestUsers,
     setCurrentPage, setFollowingProgress,
     unfollow
 } from "../../redux/usersReducer";
-import axios from "axios";
 import Users from "./Users";
 import PreLoader from "../Common/Preloader/Preloader";
-import {usersAPI} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUserCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 
 
@@ -43,20 +49,27 @@ class UsersContainer extends React.Component<any, any> {
 }
 
 
+// let mapStateToProps = (state: any) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUserCount: state.usersPage.totalUserCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
 let mapStateToProps = (state: any) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUserCount: getTotalUserCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
-
-
 export default compose<any>(
-    withAuthRedirect,
-    connect(mapStateToProps,{follow, unfollow, setCurrentPage, setFollowingProgress, getUsers}),
+    connect(mapStateToProps,{follow, unfollow, setCurrentPage, setFollowingProgress, getUsers: requestUsers}),
 )(UsersContainer)
