@@ -1,5 +1,6 @@
 
 const ADD_DIALOG = "ADD-DIALOG";
+const DELETE_DIALOG = "DELETE_DIALOG";
 
 const initialState = {
     messages: [
@@ -18,7 +19,7 @@ const initialState = {
         {id: 4, name: "Sveta"},
         {id: 5, name: "Polina"},
         {id: 6, name: "Sasha"}
-    ]
+    ],
 }
 
 interface ActionA {
@@ -30,12 +31,16 @@ interface ActionB {
     type: 'UPDATE-NEW-DIALOG-TEXT';
     newDialogText: string
 }
-
+type ActionC = {
+    type: "DELETE_DIALOG";
+    dialogId: number
+};
 type dialogsReducerType = {
     dialogs: Array<DialogType>,
     messages: Array<MessageType>,
     newDialogText: string
 };
+
 
 type MessageType = {
     id: number,
@@ -46,23 +51,26 @@ type DialogType = {
     name: string
 }
 
+export type ActionType = ActionA | ActionB | ActionC;
 
-export type ActionType = ActionA | ActionB;
 
-
-const dialogsReducer = (state = initialState, action: ActionType) => {
+const dialogsReducer = (state = initialState, action: any) => {
 
 
     switch (action.type) {
-        case ADD_DIALOG:
+        case ADD_DIALOG:{
             let newDialogText = action.newMessageBody;
             return  {
                 ...state,
                 messages: [...state.messages, {id: 6, message: newDialogText}]
             };
-
+        }
+        case DELETE_DIALOG:{
+            return {...state, dialogs: state.dialogs.filter(p => p.id !== action.dialogId)}
+        }
+        default:
+            return state;
     }
-    return state;
 }
 
 
@@ -71,6 +79,10 @@ export const addDialogActionCreator = (newMessageBody:string) => ({
     newMessageBody
 });
 
+export const deleteDialog = (dialogId: number) => ({
+    type: DELETE_DIALOG,
+    dialogId
+})
 
 
 export default dialogsReducer;

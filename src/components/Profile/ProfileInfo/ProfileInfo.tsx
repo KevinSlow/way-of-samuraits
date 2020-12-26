@@ -4,8 +4,8 @@ import PreLoader from "../../Common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-const ProfileInfo = (props: any) => {
-    if(!props.profile){
+const ProfileInfo = ({profile,status,updateStatus}:any) => {
+    if(!profile){
         return <PreLoader/>
     }
     return (
@@ -15,35 +15,35 @@ const ProfileInfo = (props: any) => {
             {/*</div>*/}
 
             <div className={s.descriptionBlock} >
-                <img src={props.profile.photos.large} alt=""/>
-                    <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
+                <img src={profile.photos.large} alt=""/>
+                    <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
                 <div>
-                    <div>{props.profile.aboutMe}</div>
+                    <div>{profile.aboutMe}</div>
                 </div>
                 <div>
                     Social Network
                     <ul>
-                        <a href={"#"}>{props.profile.contacts.facebook}</a>
-                        <li>{props.profile.contacts.website ? props.profile.contacts.website : "nothing here"}</li>
-                        <li>{props.profile.contacts.vk ? props.profile.contacts.vk : "nothing here"}</li>
-                        <li>{props.profile.contacts.twitter ? props.profile.contacts.twitter : "nothing here"}</li>
-                        <li>{props.profile.contacts.instagram ? props.profile.contacts.instagram : "nothing here"}</li>
-                        <li>{props.profile.contacts.youtube ? props.profile.contacts.youtube : "nothing here"}</li>
-                        <li>{props.profile.contacts.github ? props.profile.contacts.github : "nothing here"}</li>
-                        <li>{props.profile.contacts.mainLink ? props.profile.contacts.mainLink : "nothing here"}</li>
+                        <a href={"#"}>{profile.contacts.facebook}</a>
+                        <li>{profile.contacts.website ? profile.contacts.website : "nothing here"}</li>
+                        <li>{profile.contacts.vk ? profile.contacts.vk : "nothing here"}</li>
+                        <li>{profile.contacts.twitter ? profile.contacts.twitter : "nothing here"}</li>
+                        <li>{profile.contacts.instagram ? profile.contacts.instagram : "nothing here"}</li>
+                        <li>{profile.contacts.youtube ? profile.contacts.youtube : "nothing here"}</li>
+                        <li>{profile.contacts.github ? profile.contacts.github : "nothing here"}</li>
+                        <li>{profile.contacts.mainLink ? profile.contacts.mainLink : "nothing here"}</li>
                     </ul>
                 </div>
                 <div>
                     Looking for a Job
-                    <div>{props.profile.lookingForAJob ? "Yes" : "No"}</div>
+                    <div>{profile.lookingForAJob ? "Yes" : "No"}</div>
                 </div>
                 <div>
                     lookingForAJobDescription
-                    <div>{props.profile.lookingForAJobDescription}</div>
+                    <div>{profile.lookingForAJobDescription}</div>
                 </div>
                 <div>
                     Full Name
-                    <div>{props.profile.fullName}</div>
+                    <div>{profile.fullName}</div>
                 </div>
                 ava+description
             </div>

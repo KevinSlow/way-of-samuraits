@@ -1,4 +1,5 @@
 import {usersAPI} from "../api/api";
+import {updateObjectInArray} from "../hoc/objectsHelpers";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -17,6 +18,70 @@ let initialState = {
     followingInProgress: []
 }
 
+let initialStates = {
+    users: [
+        {
+            name: 'ILICH',
+            id: 13543,
+            uniqueUrlName: null,
+            photos: {
+                small: null,
+                large: null
+            },
+            status: null,
+            followed: false
+        },
+        {
+            name: 'anniemt6',
+            id: 13542,
+            uniqueUrlName: null,
+            photos: {
+                small: null,
+                large: null
+            },
+            status: null,
+            followed: true
+        },
+        {
+            name: 'DimaAleks',
+            id: 13541,
+            uniqueUrlName: null,
+            photos: {
+                small: null,
+                large: null
+            },
+            status: null,
+            followed: true
+        },
+        {
+            name: 'KirJS',
+            id: 13540,
+            uniqueUrlName: null,
+            photos: {
+                small: null,
+                large: null
+            },
+            status: null,
+            followed: true
+        },
+        {
+            name: 'Kir',
+            id: 13539,
+            uniqueUrlName: null,
+            photos: {
+                small: null,
+                large: null
+            },
+            status: null,
+            followed: false
+        }
+    ],
+    pageSize: 5,
+    totalUserCount: 8551,
+    currentPage: 1,
+    isFetching: false,
+    followingInProgress: []
+}
 type profileReducerType = {
     newPostText: string,
     posts: Array<PostType>,
@@ -52,33 +117,19 @@ interface ActionD {
 export type Action = ActionA | ActionB | ActionC | ActionD;
 
 
-const usersReducer = (state = initialState, action: any) => {
+const usersReducer = (state = initialStates, action: any) => {
 
     switch (action.type) {
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map(u => {
-                    // @ts-ignore
-                    if (u.id === action.userId) {
-                        // @ts-ignore
-                        return {...u, followed: true}
-                    }
-                    return u;
-                })
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: true})
             }
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map(u => {
-                    // @ts-ignore
-                    if (u.id === action.userId) {
-                        // @ts-ignore
-                        return {...u, followed: false}
-                    }
-                    return u;
-                })
+                users: updateObjectInArray(state.users, action.userId, 'id', {followed: false})
             }
 
         case SET_USERS:
@@ -152,37 +203,31 @@ export const requestUsers = (page:number, pageSize:number) => {
     }
 };
 
+const _followUnfollowFlow = async  (dispatch: any,
+                                    userId: number,
+                                    apiMethod: (userId: number) => Promise<any>,
+                                    actionCreator: (userId: number) => any)  => {
+    dispatch(setFollowingProgress(true, userId))
+    let response = await apiMethod(userId)
 
-
-export const follow = (userId:number) => {
-
-    return (dispatch: any) => {
-        dispatch(setFollowingProgress(true, userId))
-        usersAPI.followUsers(userId)
-            .then((data) => {
-                if(data.resultCode === 0){
-                    dispatch(followSuccess(userId))
-                }
-                dispatch(setFollowingProgress(false, userId))
-            })
+    if (response.resultCode == 0) {
+        dispatch(actionCreator(userId))
     }
+    dispatch(setFollowingProgress(false, userId))
+}
 
-};
 
-export const unfollow = (userId:number) => {
-
-    return (dispatch: any) => {
-        dispatch(setFollowingProgress(true, userId))
-        usersAPI.unfollowUsers(userId)
-            .then((data) => {
-                if(data.resultCode === 0){
-                    dispatch(unfollowSuccess(userId))
-                }
-                dispatch(setFollowingProgress(false, userId))
-            })
+export const follow = (userId: number): any => {
+    return async (dispatch:any) => {
+        await _followUnfollowFlow(dispatch, userId, usersAPI.followUsers.bind(usersAPI), followSuccess)
     }
+}
 
-};
+export const unfollow = (userId: number): any => {
+    return async (dispatch:any) => {
+        await _followUnfollowFlow(dispatch, userId, usersAPI.unfollowUsers.bind(usersAPI), unfollowSuccess)
+    }
+}
 
 
 
