@@ -1,11 +1,11 @@
 import React, {createElement} from 'react';
-import App from './App';
 import ReactDOM from "react-dom";
+import SamuraiJSApp from "./App";
 
-test('renders learn react link', () => {
+test('renders without crashing', () => {
   const div = createElement("div");
   // @ts-ignore
-  ReactDOM.render(<App/>, div);
+  ReactDOM.render(<SamuraiJSApp/>, div);
   // @ts-ignore
   ReactDOM.unmountComponentAtNode(div);
 });

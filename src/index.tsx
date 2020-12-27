@@ -2,8 +2,6 @@ import React from 'react';
 import reportWebVitals from './reportWebVitals';
 import ReactDOM from "react-dom";
 import './index.css';
-
-import {Provider} from "react-redux";
 import SamuraiJSApp from './App';
 
 

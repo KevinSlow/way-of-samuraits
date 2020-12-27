@@ -4,3 +4,17 @@
 }.selectedPage{
      font-weight: bold;
  }
+
+ .paginator {
+     margin: 10px;
+ }
+
+ .pageNumber {
+     padding: 2px;
+     border: 2px solid grey;
+ }
+
+ .pageNumber.selectedPage{
+     font-width: bold;
+     border-color: black;
+ }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import './App.css';
 
@@ -8,9 +8,7 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import {BrowserRouter, Route, withRouter} from "react-router-dom";
 import {RootStoreType} from "./redux/store";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
+
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -18,7 +16,13 @@ import { compose } from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import PreLoader from "./components/Common/Preloader/Preloader";
 import store from "./redux/reduxStore";
+import {withSuspense} from "./hoc/withSuspense";
+import User from "./components/Users/User";
 
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer"));
 
 type AppPropsType = {
     store: RootStoreType
@@ -41,13 +45,13 @@ class App extends React.Component<any,any> {
                 <HeaderContainer/>
                 <Nav/>
                 <div className="app-wrapper-content">
-                    <Route exact render={() => (<DialogsContainer/>)} path="/dialogs"/>
-                    <Route exact render={() => (<ProfileContainer/>)} path="/profile/:userId?"/>
+                    <Route exact render={(withSuspense(DialogsContainer))} path="/dialogs"/>
+                    <Route exact render={(withSuspense(ProfileContainer))} path="/profile/:userId?"/>
                     <Route exact component={News} path="/news"/>
                     <Route exact component={Music} path="/music"/>
                     <Route exact component={Settings} path="/settings"/>
-                    <Route exact render={() => (<UsersContainer/>)} path="/users"/>
-                    <Route exact render={() => (<LoginPage/>)} path="/login"/>
+                    <Route exact render={(withSuspense(UsersContainer))} path="/users"/>
+                    <Route exact render={withSuspense(LoginPage)} path="/login"/>
                 </div>
             </div>
 
