@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/way-of-samuraits/static/css/main.af0c9aa1.chunk.css",
+    "main.js": "/way-of-samuraits/static/js/main.c225cbb6.chunk.js",
+    "main.js.map": "/way-of-samuraits/static/js/main.c225cbb6.chunk.js.map",
+    "runtime-main.js": "/way-of-samuraits/static/js/runtime-main.8ee081b0.js",
+    "runtime-main.js.map": "/way-of-samuraits/static/js/runtime-main.8ee081b0.js.map",
+    "static/js/2.06c50761.chunk.js": "/way-of-samuraits/static/js/2.06c50761.chunk.js",
+    "static/js/2.06c50761.chunk.js.map": "/way-of-samuraits/static/js/2.06c50761.chunk.js.map",
+    "static/css/3.2fe9d48f.chunk.css": "/way-of-samuraits/static/css/3.2fe9d48f.chunk.css",
+    "static/js/3.6297cb69.chunk.js": "/way-of-samuraits/static/js/3.6297cb69.chunk.js",
+    "static/js/3.6297cb69.chunk.js.map": "/way-of-samuraits/static/js/3.6297cb69.chunk.js.map",
+    "static/css/4.c763c48d.chunk.css": "/way-of-samuraits/static/css/4.c763c48d.chunk.css",
+    "static/js/4.ed583beb.chunk.js": "/way-of-samuraits/static/js/4.ed583beb.chunk.js",
+    "static/js/4.ed583beb.chunk.js.map": "/way-of-samuraits/static/js/4.ed583beb.chunk.js.map",
+    "static/css/5.9a93c336.chunk.css": "/way-of-samuraits/static/css/5.9a93c336.chunk.css",
+    "static/js/5.184ddb17.chunk.js": "/way-of-samuraits/static/js/5.184ddb17.chunk.js",
+    "static/js/5.184ddb17.chunk.js.map": "/way-of-samuraits/static/js/5.184ddb17.chunk.js.map",
+    "static/js/6.2bd8ef33.chunk.js": "/way-of-samuraits/static/js/6.2bd8ef33.chunk.js",
+    "static/js/6.2bd8ef33.chunk.js.map": "/way-of-samuraits/static/js/6.2bd8ef33.chunk.js.map",
+    "index.html": "/way-of-samuraits/index.html",
+    "static/css/3.2fe9d48f.chunk.css.map": "/way-of-samuraits/static/css/3.2fe9d48f.chunk.css.map",
+    "static/css/4.c763c48d.chunk.css.map": "/way-of-samuraits/static/css/4.c763c48d.chunk.css.map",
+    "static/css/5.9a93c336.chunk.css.map": "/way-of-samuraits/static/css/5.9a93c336.chunk.css.map",
+    "static/css/main.af0c9aa1.chunk.css.map": "/way-of-samuraits/static/css/main.af0c9aa1.chunk.css.map",
+    "static/js/2.06c50761.chunk.js.LICENSE.txt": "/way-of-samuraits/static/js/2.06c50761.chunk.js.LICENSE.txt",
+    "static/media/Interwind-1s-200px.893cc692.svg": "/way-of-samuraits/static/media/Interwind-1s-200px.893cc692.svg",
+    "static/media/image.b6ed426e.jpg": "/way-of-samuraits/static/media/image.b6ed426e.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8ee081b0.js",
+    "static/js/2.06c50761.chunk.js",
+    "static/css/main.af0c9aa1.chunk.css",
+    "static/js/main.c225cbb6.chunk.js"
+  ]
+}
