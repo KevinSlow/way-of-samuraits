@@ -6,7 +6,7 @@ import Nav from "./components/Navbar/Nav";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import {RootStoreType} from "./redux/store";
 
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -71,11 +71,11 @@ let AppContainer = compose<any>(
 
 
 export const SamuraiJSApp = () => {
-  return <BrowserRouter basename={process.env.PUBLIC_URL}>
+  return <HashRouter basename={process.env.PUBLIC_URL}>
             <Provider store={store}>
                 <AppContainer />
             </Provider>
-        </BrowserRouter>
+        </HashRouter>
 }
 
 export default SamuraiJSApp
