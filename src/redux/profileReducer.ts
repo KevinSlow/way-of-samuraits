@@ -77,7 +77,9 @@ const profileReducer = (state = initialState, action: any) => {
         }
 
         case SAVE_PHOTO_SUCCESS: {
-            return {...state, profile: action.photos}
+debugger
+            // @ts-ignore
+            return {...state.profile, profile: action.photos}
         }
     }
 

@@ -9,9 +9,9 @@ const ProfileInfo = ({profile,savePhoto,isOwner,status,updateStatus}:any) => {
         return <PreLoader/>
     }
 
-    const mainPhotoSelected = (e:any) => {
-        if(e.current.files.length){
-            savePhoto(e.target.files[0])
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            savePhoto(e.target.files[0]);
         }
     }
 
@@ -23,7 +23,7 @@ const ProfileInfo = ({profile,savePhoto,isOwner,status,updateStatus}:any) => {
 
             <div className={s.descriptionBlock} >
                 <img className={s.mainPhoto} src={profile.photos.large || userPhoto} alt=""/>
-                {isOwner && <input type={"file"}  onChange={mainPhotoSelected}/>}
+                {isOwner && <input type={"file"}  onChange={onMainPhotoSelected}/>}
                     <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
                 <div>
                     <div>{profile.aboutMe}</div>

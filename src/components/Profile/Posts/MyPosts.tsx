@@ -16,8 +16,9 @@ export type PostType = {
 
 
 const MyPosts = React.memo((props: MyPostsPropsType) => {
-    let postsElements = props.post.map((p: { message: string; likesCount: number; }) => <Post
-        message={p.message} likesCount={p.likesCount}/>)
+    let postsElements = props.post?.map((p: { message: string; likesCount: number; }) => {
+       return <Post message={p.message} likesCount={p.likesCount}/>
+    })
     const onSubmit = (values: any) => {
         props.addPosts(values.newPostText);
     }
