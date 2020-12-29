@@ -11,22 +11,22 @@ const instance = axios.create({
 
 
 export const usersAPI = {
-    getUsers (currentPage = 1, pageSize = 10)  {
+    getUsers(currentPage = 1, pageSize = 10) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => {
                 return response.data
             });
     },
-    getUsersProfile (userId: any)  {
+    getUsersProfile(userId: any) {
         return profileAPI.getUsersProfile(userId);
     },
-    unfollowUsers(userId: number)  {
+    unfollowUsers(userId: number) {
         return instance.delete(`/follow/${userId}`)
             .then(response => {
                 return response.data
             });
     },
-    followUsers(userId:number)  {
+    followUsers(userId: number) {
         return instance.post(`/follow/${userId}`)
             .then(response => {
                 return response.data
@@ -36,29 +36,38 @@ export const usersAPI = {
 }
 
 export const profileAPI = {
-    getUsersProfile (userId: any)  {
-        return instance.get(`profile/`+ userId)
+    getUsersProfile(userId: any) {
+        return instance.get(`profile/` + userId)
     },
-    getStatus(userId: any){
-        return instance.get(`profile/status/`+ userId)
+    getStatus(userId: any) {
+        return instance.get(`profile/status/` + userId)
     },
-    updateStatus(status: any){
+    updateStatus(status: any) {
         return instance.put(`profile/status/`, {status: status})
+    },
+    savePhoto(photoFile: any) {
+        var formData: any = new formData()
+        formData.append("image", photoFile)
+        return instance.put(`profile/photo`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
     }
 }
 
 
-export const authAPI =  {
-    me(){
+export const authAPI = {
+    me() {
         return instance.get(`auth/me`)
             .then(response => {
                 return response.data
             });
     },
-    login(email: string, password: string, rememberMe: boolean){
-        return instance.post(`auth/login`,{email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean) {
+        return instance.post(`auth/login`, {email, password, rememberMe})
     },
-    logout(){
+    logout() {
         return instance.delete(`auth/login`)
     }
 }

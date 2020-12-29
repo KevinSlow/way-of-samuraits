@@ -5,13 +5,12 @@ import MyPostsContainer from "./Posts/MyPostsContainer";
 import {Redirect} from "react-router-dom";
 
 
-
-
 const Profile = (props: any) => {
     return (
         <div>
-            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
-            <MyPostsContainer />
+            <ProfileInfo savePhoto={props.savePhoto} isOwner={props.isOwner} profile={props.profile}
+                         status={props.status} updateStatus={props.updateStatus}/>
+            <MyPostsContainer/>
         </div>
     );
 }

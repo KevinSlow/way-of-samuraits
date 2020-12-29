@@ -1,13 +1,20 @@
-import React from "react";
+import React, {ChangeEvent} from "react";
 import s from './ProfileInfo.module.css';
 import PreLoader from "../../Common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/img/image.jpg";
-const ProfileInfo = ({profile,status,updateStatus}:any) => {
+const ProfileInfo = ({profile,savePhoto,isOwner,status,updateStatus}:any) => {
     if(!profile){
         return <PreLoader/>
     }
+
+    const mainPhotoSelected = (e:any) => {
+        if(e.current.files.length){
+            savePhoto(e.target.files[0])
+        }
+    }
+
     return (
         <div>
             {/*<div>*/}
@@ -16,6 +23,7 @@ const ProfileInfo = ({profile,status,updateStatus}:any) => {
 
             <div className={s.descriptionBlock} >
                 <img className={s.mainPhoto} src={profile.photos.large || userPhoto} alt=""/>
+                {isOwner && <input type={"file"}  onChange={mainPhotoSelected}/>}
                     <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
                 <div>
                     <div>{profile.aboutMe}</div>

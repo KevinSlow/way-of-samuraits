@@ -5,6 +5,7 @@ const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const DELETE_POST = "DELETE_POST";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS"
 
 const initialState = {
     posts: [
@@ -74,6 +75,10 @@ const profileReducer = (state = initialState, action: any) => {
         case DELETE_POST: {
             return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
         }
+
+        case SAVE_PHOTO_SUCCESS: {
+            return {...state, profile: action.photos}
+        }
     }
 
     return state;
@@ -99,6 +104,11 @@ export const setStatus = (status: any) => ({
     type: SET_STATUS,
     status,
 });
+
+export const savePhotoSuccess = (photos: any) => ({
+    type: SAVE_PHOTO_SUCCESS,
+    photos,
+});
 // -----------
 // Redux-Thunk for async query
 // -----------
@@ -120,5 +130,11 @@ export const updateStatus = (status: number) => async (dispatch: any) => {
     }
 };
 
+export const savePhoto = (file: any) => async (dispatch: any) => {
+    const response = await profileAPI.savePhoto(file)
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.photos));
+    }
+};
 
 export default profileReducer;
