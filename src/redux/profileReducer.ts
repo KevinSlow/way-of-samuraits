@@ -1,4 +1,6 @@
 import {profileAPI, usersAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
+import {Simulate} from "react-dom/test-utils";
 
 const ADD_POST = "ADD-POST";
 
@@ -6,6 +8,7 @@ const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const DELETE_POST = "DELETE_POST";
 const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS"
+
 
 const initialState = {
     posts: [
@@ -77,12 +80,12 @@ const profileReducer = (state = initialState, action: any) => {
         }
 
         case SAVE_PHOTO_SUCCESS: {
-debugger
-            // @ts-ignore
-            return {...state.profile, profile: action.photos}
+            debugger
+            //@ts-ignore
+            return {...state, profile: {...state.profile, photos: action.photos}}
         }
-    }
 
+    }
     return state;
 }
 
@@ -109,8 +112,9 @@ export const setStatus = (status: any) => ({
 
 export const savePhotoSuccess = (photos: any) => ({
     type: SAVE_PHOTO_SUCCESS,
-    photos,
+    photos
 });
+
 // -----------
 // Redux-Thunk for async query
 // -----------
@@ -134,8 +138,24 @@ export const updateStatus = (status: number) => async (dispatch: any) => {
 
 export const savePhoto = (file: any) => async (dispatch: any) => {
     const response = await profileAPI.savePhoto(file)
-    if (response.data.resultCode === 0) {
+
+    if (response.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.photos));
+    }
+};
+
+
+export const saveProfile = (profile: any) => async (dispatch: any, getState:any) => {
+
+    const userId =  getState().auth.userId
+    const response = await profileAPI.saveProfile(profile)
+    if (response.resultCode === 0) {
+        dispatch(setUserProfile(userId));
+    }else{
+        debugger
+        // dispatch(stopSubmit("edit-profile", {"contacts" : {"facebook": response.messages[0]}}))
+        dispatch(stopSubmit("edit-profile",{_error : response.messages[0]}))
+        return Promise.reject(response.messages[0])
     }
 };
 

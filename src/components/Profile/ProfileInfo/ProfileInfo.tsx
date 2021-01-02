@@ -1,11 +1,16 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from './ProfileInfo.module.css';
 import PreLoader from "../../Common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/img/image.jpg";
-const ProfileInfo = ({profile,savePhoto,isOwner,status,updateStatus}:any) => {
-    if(!profile){
+import ProfileDataForm from "./ProfileDataForm";
+
+const ProfileInfo = ({profile, savePhoto, isOwner, status, updateStatus, saveProfile}: any) => {
+    const [editMode, setEditMode] = useState(false)
+
+
+    if (!profile) {
         return <PreLoader/>
     }
 
@@ -15,48 +20,60 @@ const ProfileInfo = ({profile,savePhoto,isOwner,status,updateStatus}:any) => {
         }
     }
 
+    const onSubmit =  (formData: any) => {
+         saveProfile(formData).then(()=>{
+             setEditMode(false)
+         })
+    }
+
     return (
         <div>
             {/*<div>*/}
             {/*    <img src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png" alt=""/>*/}
             {/*</div>*/}
+            <img className={s.mainPhoto} src={profile.photos.large || userPhoto} alt=""/>
+            {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
+            <ProfileStatusWithHooks status={status} updateStatus={updateStatus}/>
+            {editMode
+                // @ts-ignore
+                ? <ProfileDataForm profile={profile} initialValues={profile} onSubmit={onSubmit}/>
+                : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => (setEditMode(true))}/>}
 
-            <div className={s.descriptionBlock} >
-                <img className={s.mainPhoto} src={profile.photos.large || userPhoto} alt=""/>
-                {isOwner && <input type={"file"}  onChange={onMainPhotoSelected}/>}
-                    <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
-                <div>
-                    <div>{profile.aboutMe}</div>
-                </div>
-                <div>
-                    Social Network
-                    <ul>
-                        <a href={"#"}>{profile.contacts.facebook}</a>
-                        <li>{profile.contacts.website ? profile.contacts.website : "nothing here"}</li>
-                        <li>{profile.contacts.vk ? profile.contacts.vk : "nothing here"}</li>
-                        <li>{profile.contacts.twitter ? profile.contacts.twitter : "nothing here"}</li>
-                        <li>{profile.contacts.instagram ? profile.contacts.instagram : "nothing here"}</li>
-                        <li>{profile.contacts.youtube ? profile.contacts.youtube : "nothing here"}</li>
-                        <li>{profile.contacts.github ? profile.contacts.github : "nothing here"}</li>
-                        <li>{profile.contacts.mainLink ? profile.contacts.mainLink : "nothing here"}</li>
-                    </ul>
-                </div>
-                <div>
-                    Looking for a Job
-                    <div>{profile.lookingForAJob ? "Yes" : "No"}</div>
-                </div>
-                <div>
-                    lookingForAJobDescription
-                    <div>{profile.lookingForAJobDescription}</div>
-                </div>
-                <div>
-                    Full Name
-                    <div>{profile.fullName}</div>
-                </div>
-                ava+description
-            </div>
         </div>
     );
 }
+
+
+const ProfileData = ({profile, isOwner, goToEditMode, ...props}: any) => {
+    return <div className={s.descriptionBlock}>
+        {isOwner && <div>
+            <button onClick={goToEditMode}>edit</button>
+        </div>}
+        <div>
+            Full Name
+            <div>{profile.fullName}</div>
+        </div>
+        <div>
+            About Me
+            <div>{profile.aboutMe}</div>
+        </div>
+        <div>{profile.lookingForAJob &&
+        <div>lookingForAJobDescription <div>{profile.lookingForAJobDescription}</div></div>}</div>
+        <div>Looking for a Job: <div>{profile.lookingForAJob ? "Yes" : "No"}</div></div>
+        <div>
+            <div>
+                <b>Contacts:</b> : {Object.keys(profile.contacts).map(key => {
+                return <Contacts contactTitle={key} contactValue={profile.contacts[key]}/>
+            })}
+            </div>
+        </div>
+    </div>
+}
+
+
+const Contacts = ({contactTitle, contactValue}: any) => {
+    return <div className={s.contact}><b>{contactTitle}</b> : {contactValue}</div>
+}
+
 
 export default ProfileInfo;
