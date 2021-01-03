@@ -1,7 +1,4 @@
 import React from "react";
-import s from "./users.module.css";
-import userPhoto from "../../assets/img/image.jpg";
-import { NavLink } from "react-router-dom";
 import UsersPagination from "../Common/Pagination/Pagination";
 import User from "./User";
 
@@ -14,8 +11,6 @@ let Users = ({
   onPageChanged,
   ...props
 }: any) => {
-  const eight = 8;
-
   return (
     <div>
       <UsersPagination
