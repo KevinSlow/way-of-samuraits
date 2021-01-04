@@ -12,7 +12,16 @@ let initialState = {
   captchaUrl: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+type payloadType = {
+  userId: number;
+  email: string;
+  login: boolean;
+  isAuth: boolean;
+};
+
+type authReducerActionType = ReturnType<typeof setAuthUserDataSuccess>;
+
+const authReducer = (state = initialState, action: authReducerActionType) => {
   switch (action.type) {
     case SET_USER_DATA:
     case GET_CAPTCHA_URL_SUCCESS:
@@ -25,9 +34,9 @@ const authReducer = (state = initialState, action: any) => {
 };
 
 export const setAuthUserDataSuccess = (
-  userId: any,
-  email: any,
-  login: any,
+  email: string,
+  userId: string,
+  login: boolean,
   isAuth: boolean
 ) => ({
   type: SET_USER_DATA,
@@ -51,7 +60,7 @@ export const login = (
   email: string,
   password: string,
   rememberMe: boolean,
-  captcha: any
+  captcha: null
 ) => async (dispatch: any) => {
   let response = await authAPI.login(email, password, rememberMe, captcha);
   if (response.data.resultCode === 0) {
@@ -77,7 +86,7 @@ export const getCaptchaURL = () => async (dispatch: any) => {
 export const logout = () => async (dispatch: any) => {
   let response = await authAPI.logout();
   if (response.data.resultCode === 0) {
-    dispatch(setAuthUserDataSuccess(null, null, null, false));
+    dispatch(setAuthUserDataSuccess("", "", false, false));
   }
 };
 //

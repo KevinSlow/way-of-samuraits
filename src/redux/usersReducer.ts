@@ -93,29 +93,52 @@ type PostType = {
   likesCount: number;
 };
 
-interface ActionA {
+interface FollowType {
   type: "FOLLOW";
-  newText: string;
+  userId: number;
 }
 
-interface ActionB {
+interface UnfollowType {
   type: "UNFOLLOW";
-  newText: string;
+  userId: number;
 }
 
-interface ActionC {
+interface SetUsersType {
   type: "SET_USERS";
-  newText: string;
+  users: string;
 }
 
-interface ActionD {
+interface ToggleIsFetchingType {
   type: "TOGGLE_IS_FETCHING";
-  newText: string;
+  isFetching: boolean;
 }
 
-export type Action = ActionA | ActionB | ActionC | ActionD;
+type SetCurrentPageType = {
+  type: "SET_CURRENT_PAGE";
+  currentPage: number;
+};
 
-const usersReducer = (state = initialStates, action: any) => {
+type ToggleFollowingInProgressType = {
+  type: "TOGGLE_FOLLOWING_PROGRESS";
+  isFetching: boolean;
+  userId: number;
+};
+
+type SetUsersTotalCountType = {
+  type: "SET_TOTAL_USERS_COUNT";
+  count: number;
+};
+
+export type UsersAction =
+  | FollowType
+  | UnfollowType
+  | SetUsersType
+  | ToggleIsFetchingType
+  | SetCurrentPageType
+  | ToggleFollowingInProgressType
+  | SetUsersTotalCountType;
+
+const usersReducer = (state = initialStates, action: UsersAction) => {
   switch (action.type) {
     case FOLLOW:
       return {

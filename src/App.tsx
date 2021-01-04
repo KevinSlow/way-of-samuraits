@@ -34,11 +34,18 @@ const UsersContainer = React.lazy(
   () => import("./components/Users/UsersContainer")
 );
 
-type AppPropsType = {
-  store: RootStoreType;
+type appType = {
+  initialized: boolean;
 };
 
-class App extends React.Component<any, any> {
+type AppPropsType = {
+  store: RootStoreType;
+  initializeApp: () => void;
+  app: appType;
+  initialized: boolean;
+};
+
+class App extends React.Component<AppPropsType> {
   catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
     alert("Some error Occurred");
     // console.error(promiseRejectionEvent);
@@ -91,7 +98,7 @@ class App extends React.Component<any, any> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppPropsType) => ({
   initialized: state.app.initialized,
 });
 

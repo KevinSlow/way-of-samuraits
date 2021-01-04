@@ -10,7 +10,6 @@ const initialState = {
     { id: 5, message: "Trysa" },
     { id: 6, message: "Fine" },
   ],
-
   dialogs: [
     { id: 1, name: "Dimich123" },
     { id: 2, name: "Andrew" },

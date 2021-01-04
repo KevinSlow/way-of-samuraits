@@ -7,7 +7,12 @@ let initialState = {
   globalError: null,
 };
 
-const appReducer = (state = initialState, action: any) => {
+type appReducerActionType = {
+  type: "SET_INITIALIZED_SUCCESS";
+  initialized: boolean;
+};
+
+const appReducer = (state = initialState, action: appReducerActionType) => {
   switch (action.type) {
     case SET_INITIALIZED_SUCCESS:
       return {
