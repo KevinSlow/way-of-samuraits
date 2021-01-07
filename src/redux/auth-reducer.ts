@@ -1,9 +1,17 @@
 import { authAPI, securityAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
-import { DispatchType } from "./store";
+import { DispatchType, IActionRecucerType } from "./store";
 
 const SET_USER_DATA = "samurai-network/auth/SET_USER_DATA";
 const GET_CAPTCHA_URL_SUCCESS = "samurai-network/auth/GET_CAPTCHA_URL_SUCCESS";
+
+type InitialStateType = {
+  isAuth: boolean;
+  captchaUrl: null | string;
+  login: null | string;
+  userId: null | number;
+  email: null | string;
+};
 
 let initialState = {
   userId: null,
@@ -13,7 +21,10 @@ let initialState = {
   captchaUrl: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+const authReducer = (
+  state: InitialStateType = initialState,
+  action: any
+): InitialStateType => {
   switch (action.type) {
     case SET_USER_DATA:
     case GET_CAPTCHA_URL_SUCCESS:
@@ -25,12 +36,24 @@ const authReducer = (state = initialState, action: any) => {
   return state;
 };
 
+type SetAuthUserDataActionTypePayloadType = {
+  userId: number;
+  email: string;
+  login: string;
+  isAuth: boolean;
+};
+
+type SetAuthUserDataActionType = {
+  type: typeof SET_USER_DATA;
+  payload: SetAuthUserDataActionTypePayloadType;
+};
+
 export const setAuthUserDataSuccess = (
-  userId: null,
-  email: null,
-  login: null,
+  userId: number,
+  email: string,
+  login: string,
   isAuth: boolean
-) => ({
+): SetAuthUserDataActionType => ({
   type: SET_USER_DATA,
   payload: { userId, email, login, isAuth },
 });
@@ -42,21 +65,27 @@ export const setAuthUserData = () => async (dispatch: DispatchType) => {
     dispatch(setAuthUserDataSuccess(id, email, login, true));
   }
 };
+type getCaptchaURLSuccessType = {
+  type: typeof GET_CAPTCHA_URL_SUCCESS;
+  payload: { captchaUrl: string };
+};
 
-export const getCaptchaURLSuccess = (captchaUrl: string) => ({
+export const getCaptchaURLSuccess = (
+  captchaUrl: string
+): getCaptchaURLSuccessType => ({
   type: GET_CAPTCHA_URL_SUCCESS,
   payload: { captchaUrl },
 });
 
 export const login = (
-  email: any,
-  password: any,
-  rememberMe: any,
-  captcha: any
+  email: string,
+  password: string,
+  rememberMe: boolean,
+  captcha: string
 ) => async (dispatch: any) => {
   let response = await authAPI.login(email, password, rememberMe, captcha);
   if (response.data.resultCode === 0) {
-    dispatch(setAuthUserDataSuccess(email, password, rememberMe, true));
+    dispatch(setAuthUserDataSuccess(Number(email), password, rememberMe, true));
   } else {
     if (response.data.resultCode === 10) {
       dispatch(getCaptchaURL());
