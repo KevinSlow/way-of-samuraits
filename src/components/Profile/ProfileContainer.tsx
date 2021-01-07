@@ -8,10 +8,26 @@ import {
   setUserProfile,
   updateStatus,
 } from "../../redux/profileReducer";
-import { withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
+import { DispatchType, StateType } from "../../redux/store";
 
-export class ProfileContainer extends React.Component<any, any> {
+export type ProfileContainerType = {
+  getStatus: (userId: number) => void;
+  authorizedUserId: number;
+  savePhoto: () => void;
+  updateStatus: () => void;
+  status: string;
+  profile: {};
+  setUserProfile: (userId: number) => void;
+};
+
+class ProfileContainer extends React.Component<
+  StateType &
+    ProfileContainerType &
+    DispatchType &
+    RouteComponentProps<{ userId: string }>
+> {
   refreshProfile() {
     let userId = +this.props.match.params.userId;
     if (!userId) {
@@ -52,7 +68,7 @@ export class ProfileContainer extends React.Component<any, any> {
   }
 }
 
-let mapStateToProps = (state: any) => ({
+let mapStateToProps = (state: StateType) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
   authorizedUserId: state.auth.userId,

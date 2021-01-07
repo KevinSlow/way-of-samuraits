@@ -1,3 +1,5 @@
+import { IActionRecucerType } from "./store";
+
 const ADD_DIALOG = "ADD-DIALOG";
 const DELETE_DIALOG = "DELETE_DIALOG";
 
@@ -20,37 +22,7 @@ const initialState = {
   ],
 };
 
-interface ActionA {
-  type: "ADD-DIALOG";
-  newMessageBody: string;
-}
-
-interface ActionB {
-  type: "UPDATE-NEW-DIALOG-TEXT";
-  newDialogText: string;
-}
-type ActionC = {
-  type: "DELETE_DIALOG";
-  dialogId: number;
-};
-type dialogsReducerType = {
-  dialogs: Array<DialogType>;
-  messages: Array<MessageType>;
-  newDialogText: string;
-};
-
-type MessageType = {
-  id: number;
-  message: string;
-};
-type DialogType = {
-  id: number;
-  name: string;
-};
-
-export type ActionType = ActionA | ActionB | ActionC;
-
-const dialogsReducer = (state = initialState, action: any) => {
+const dialogsReducer = (state = initialState, action: IActionRecucerType) => {
   switch (action.type) {
     case ADD_DIALOG: {
       let newDialogText = action.newMessageBody;

@@ -1,6 +1,19 @@
 import React from "react";
 import UsersPagination from "../Common/Pagination/Pagination";
 import User from "./User";
+import { UserPropsContainerType } from "./UsersContainer";
+import { PostType } from "../../redux/store";
+
+type UsersPropsType = {
+  followingInProgress: () => void;
+  users: PostType[];
+  currentPage: number;
+  pageSize: number;
+  totalUserCount: number;
+  onPageChanged: (pageNumber: number) => void;
+  follow: () => void;
+  unfollow: () => void;
+};
 
 let Users = ({
   followingInProgress,
@@ -10,7 +23,7 @@ let Users = ({
   totalUserCount,
   onPageChanged,
   ...props
-}: any) => {
+}: UsersPropsType) => {
   return (
     <div>
       <UsersPagination
@@ -20,7 +33,7 @@ let Users = ({
         onPageChanged={onPageChanged}
       />
       <div>
-        {users.map((u: any) => (
+        {users.map((u: { id: number }) => (
           <User
             key={u.id}
             user={u}

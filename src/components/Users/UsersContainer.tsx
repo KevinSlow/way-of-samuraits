@@ -18,19 +18,32 @@ import {
   getTotalUserCount,
   getUsers,
 } from "../../redux/users-selectors";
+import { PostType, StateType } from "../../redux/store";
 
-class UsersContainer extends React.Component<any, any> {
+export interface UserPropsContainerType {
+  currentPage: number;
+  pageSize: number;
+  getUsers: (currentPage: number, pageSize: number) => void;
+  isFetching: boolean;
+  users: PostType[];
+  totalUserCount: number;
+  follow: () => void;
+  unfollow: () => void;
+  followingInProgress: () => void;
+}
+
+class UsersContainer extends React.Component<UserPropsContainerType> {
   componentDidMount() {
     let { currentPage, pageSize } = this.props;
     this.props.getUsers(currentPage, pageSize);
   }
 
-  onPageChanged = (pageNumber: any) => {
+  onPageChanged = (pageNumber: number) => {
     let { pageSize } = this.props;
     this.props.getUsers(pageNumber, pageSize);
   };
 
-  render() {
+  render(): JSX.Element {
     return (
       <>
         {this.props.isFetching ? (
@@ -52,7 +65,7 @@ class UsersContainer extends React.Component<any, any> {
   }
 }
 
-let mapStateToProps = (state: any) => {
+let mapStateToProps = (state: StateType) => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
