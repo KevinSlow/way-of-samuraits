@@ -7,6 +7,7 @@ import {
   photosType,
   ProfileType,
   StateType,
+  ThunkType,
 } from "../types/types";
 
 const ADD_POST = "ADD-POST";
@@ -156,9 +157,7 @@ export const savePhotoSuccess = (photos: photosType): savePhotoSuccessType => ({
 // Redux-Thunk for async query
 // -----------
 
-export const setUserProfile = (
-  userId: number | null
-): ThunkAction<void, StateType, unknown, Action<number>> => async (
+export const setUserProfile = (userId: number | null): ThunkType => async (
   dispatch: DispatchType
 ) => {
   const response = await usersAPI.getUsersProfile(userId);
@@ -174,9 +173,7 @@ export const getStatus = (
   dispatch(setStatus(response.data));
 };
 
-export const updateStatus = (
-  status: string
-): ThunkAction<void, StateType, unknown, Action<string>> => async (
+export const updateStatus = (status: string): ThunkType => async (
   dispatch: DispatchType
 ) => {
   try {
@@ -189,9 +186,7 @@ export const updateStatus = (
   }
 };
 
-export const savePhoto = (
-  file: string
-): ThunkAction<void, StateType, unknown, Action<string>> => async (
+export const savePhoto = (file: string): ThunkType => async (
   dispatch: DispatchType
 ) => {
   const response = await profileAPI.savePhoto(file);

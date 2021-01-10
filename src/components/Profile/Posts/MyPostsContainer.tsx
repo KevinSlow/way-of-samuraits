@@ -1,36 +1,47 @@
 import React from "react";
-import {addPostActionCreator} from "../../../redux/profileReducer";
-import {RootStoreType} from "../../../redux/store";
-import {connect} from "react-redux";
+import { addPostActionCreator } from "../../../redux/profileReducer";
+import { RootStoreType } from "../../../redux/store";
+import { connect } from "react-redux";
 import Profile from "../Profile";
-import MyPosts from "./MyPosts";
-
+import MyPosts, { PostType } from "./MyPosts";
+import { DispatchType, StateType } from "../../../types/types";
 
 type myPostsContainerPropsType = {
-    store: RootStoreType
+  store: RootStoreType;
 };
 
+type MapStateToProps = {
+  post: Array<PostType>;
+  newPostText: string;
+};
 
-const mapStateToProps = (state: any) => {
-    return{
-        post: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText
-    }
-}
+type MapDispatchToProps = {
+  addPosts: (newPostText: string) => void;
+};
 
-const mapDispatchToProps = (dispatch: any,) => {
-    return{
-        addPosts: (newPostText:string) => {
-            dispatch(addPostActionCreator(newPostText));
-        },
+const mapStateToProps = (state: StateType): MapStateToProps => {
+  return {
+    post: state.profilePage.posts,
+    newPostText: state.profilePage.newPostText,
+  };
+};
 
-    }
-}
+const mapDispatchToProps = (dispatch: DispatchType): MapDispatchToProps => {
+  return {
+    addPosts: (newPostText) => {
+      dispatch(addPostActionCreator(newPostText));
+    },
+  };
+};
 
-
-const MyPostsContainer: any = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
-
-
-
+const MyPostsContainer: any = connect<
+  MapStateToProps,
+  unknown,
+  MapDispatchToProps,
+  StateType
+>(
+  mapStateToProps,
+  mapDispatchToProps
+)(MyPosts);
 
 export default MyPostsContainer;
