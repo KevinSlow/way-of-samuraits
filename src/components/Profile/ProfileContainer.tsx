@@ -10,7 +10,7 @@ import {
 } from "../../redux/profileReducer";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { DispatchType, StateType } from "../../redux/store";
+import { DispatchType, StateType } from "../../types/types";
 
 export type ProfileContainerType = {
   getStatus: (userId: number) => void;

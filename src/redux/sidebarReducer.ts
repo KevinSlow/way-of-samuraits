@@ -1,5 +1,5 @@
-import { IActionRecucerType } from "./store";
-
+import { IActionRecucerType } from "../types/types";
+type initialStateType = typeof initialState;
 const initialState = {
   friends: [
     {
@@ -23,7 +23,10 @@ const initialState = {
   ],
 };
 
-const sidebarReducer = (state = initialState, action: IActionRecucerType) => {
+const sidebarReducer = (
+  state = initialState,
+  action: IActionRecucerType
+): initialStateType => {
   return state;
 };
 

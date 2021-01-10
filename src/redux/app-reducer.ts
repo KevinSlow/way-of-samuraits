@@ -1,6 +1,6 @@
 import { setAuthUserData } from "./auth-reducer";
-import { DispatchType, IActionRecucerType, StateType } from "./store";
 import { ThunkAction } from "redux-thunk";
+import { DispatchType, IActionRecucerType, StateType } from "../types/types";
 
 const SET_INITIALIZED_SUCCESS = "SET_INITIALIZED_SUCCESS";
 

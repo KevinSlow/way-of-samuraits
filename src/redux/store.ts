@@ -4,7 +4,6 @@ import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
-import { reducers } from "./reduxStore";
 
 type MessageType = {
   id: number;
@@ -49,30 +48,6 @@ export type RootStateType = {
   sideBar: sideBarType;
   usersPage: null;
 };
-
-export type ThunkType<ReturnType = void> = ThunkAction<
-  ReturnType,
-  StateType,
-  unknown,
-  Action<string>
->;
-
-export interface IActionRecucerType {
-  type: string;
-  newPostText: string;
-  status: string;
-  profile: null;
-  postId: number;
-  userId: number;
-  users: number[];
-  currentPage: number;
-  count: number;
-  isFetching: boolean;
-  newMessageBody: string;
-  dialogId: number;
-}
-export type DispatchType = typeof store.dispatch;
-export type StateType = ReturnType<typeof reducers>;
 
 export type RootStoreType = {
   _state: RootStateType;
@@ -148,7 +123,7 @@ let store: RootStoreType = {
   subscribe(observer) {
     this._callSubscriber = observer;
   },
-  dispatch: function (action: IActionRecucerType) {
+  dispatch: function (action: any) {
     let { profilePage, dialogsPage, sideBar } = this._state;
     profileReducer(profilePage, action);
     dialogsReducer(dialogsPage, action);

@@ -1,8 +1,16 @@
-import { IActionRecucerType } from "./store";
+import { IActionRecucerType } from "../types/types";
 
 const ADD_DIALOG = "ADD-DIALOG";
 const DELETE_DIALOG = "DELETE_DIALOG";
 
+type MessageType = {
+  id: number;
+  message: string;
+};
+type DialogsType = {
+  id: number;
+  name: string;
+};
 const initialState = {
   messages: [
     { id: 1, message: "Hi" },
@@ -11,7 +19,7 @@ const initialState = {
     { id: 4, message: "Svetlana" },
     { id: 5, message: "Trysa" },
     { id: 6, message: "Fine" },
-  ],
+  ] as Array<MessageType>,
   dialogs: [
     { id: 1, name: "Dimich123" },
     { id: 2, name: "Andrew" },
@@ -19,7 +27,7 @@ const initialState = {
     { id: 4, name: "Sveta" },
     { id: 5, name: "Polina" },
     { id: 6, name: "Sasha" },
-  ],
+  ] as Array<DialogsType>,
 };
 
 const dialogsReducer = (state = initialState, action: IActionRecucerType) => {
@@ -42,12 +50,24 @@ const dialogsReducer = (state = initialState, action: IActionRecucerType) => {
   }
 };
 
-export const addDialogActionCreator = (newMessageBody: string) => ({
+type addDialogActionCreatorType = {
+  type: typeof ADD_DIALOG;
+  newMessageBody: string;
+};
+
+export const addDialogActionCreator = (
+  newMessageBody: string
+): addDialogActionCreatorType => ({
   type: ADD_DIALOG,
   newMessageBody,
 });
-
-export const deleteDialog = (dialogId: number) => ({
+type deleteDialogActionCreatorType = {
+  type: typeof DELETE_DIALOG;
+  dialogId: number;
+};
+export const deleteDialog = (
+  dialogId: number
+): deleteDialogActionCreatorType => ({
   type: DELETE_DIALOG,
   dialogId,
 });

@@ -18,21 +18,36 @@ import {
   getTotalUserCount,
   getUsers,
 } from "../../redux/users-selectors";
-import { PostType, StateType } from "../../redux/store";
+import { StateType, UserType } from "../../types/types";
+import { ThunkDispatch } from "redux-thunk";
 
-export interface UserPropsContainerType {
+type MapStateToPropsType = {
   currentPage: number;
   pageSize: number;
-  getUsers: (currentPage: number, pageSize: number) => void;
   isFetching: boolean;
-  users: PostType[];
   totalUserCount: number;
-  follow: () => void;
-  unfollow: () => void;
-  followingInProgress: () => void;
-}
+  users: UserType[];
+  followingInProgress: number[];
+};
 
-class UsersContainer extends React.Component<UserPropsContainerType> {
+type MapDispatchPropsType = {
+  follow: (userId: number) => void;
+  getUsers: (currentPage: number, pageSize: number) => void;
+  unfollow: (userId: number) => void;
+};
+
+type OwnPropsType = {
+  pageTitle: string;
+};
+
+export type UserPropsContainerType = MapStateToPropsType &
+  MapDispatchPropsType &
+  OwnPropsType;
+
+class UsersContainer extends React.Component<
+  UserPropsContainerType,
+  StateType
+> {
   componentDidMount() {
     let { currentPage, pageSize } = this.props;
     this.props.getUsers(currentPage, pageSize);
@@ -46,6 +61,7 @@ class UsersContainer extends React.Component<UserPropsContainerType> {
   render(): JSX.Element {
     return (
       <>
+        <h2>{this.props.pageTitle}</h2>
         {this.props.isFetching ? (
           <PreLoader />
         ) : (
@@ -65,7 +81,7 @@ class UsersContainer extends React.Component<UserPropsContainerType> {
   }
 }
 
-let mapStateToProps = (state: StateType) => {
+let mapStateToProps = (state: StateType): MapStateToPropsType => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
@@ -77,11 +93,12 @@ let mapStateToProps = (state: StateType) => {
 };
 
 export default compose<any>(
-  connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    setFollowingProgress,
-    getUsers: requestUsers,
-  })
+  connect<MapStateToPropsType, MapDispatchPropsType, OwnPropsType, StateType>(
+    mapStateToProps,
+    {
+      follow,
+      unfollow: unfollow,
+      getUsers: requestUsers,
+    }
+  )
 )(UsersContainer);

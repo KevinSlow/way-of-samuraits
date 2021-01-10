@@ -23,6 +23,7 @@ import { initializeApp } from "./redux/app-reducer";
 import PreLoader from "./components/Common/Preloader/Preloader";
 import store from "./redux/reduxStore";
 import { withSuspense } from "./hoc/withSuspense";
+import UsersContainerHook from "./components/Users/UsersContainerHook";
 
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
@@ -88,7 +89,11 @@ class App extends React.Component<AppPropsType> {
             <Route exact component={News} path="/news" />
             <Route exact component={Music} path="/music" />
             <Route exact component={Settings} path="/settings" />
-            <Route exact render={withSuspense(UsersContainer)} path="/users" />
+            <Route
+              exact
+              render={() => <UsersContainer pageTitle={"Самураи"} />}
+              path="/users"
+            />
             <Route exact render={withSuspense(LoginPage)} path="/login" />
             <Route exact render={() => <div>404 Not Found</div>} path="*" />
           </Switch>
@@ -111,7 +116,9 @@ export const SamuraiJSApp = () => {
   return (
     <HashRouter basename={process.env.PUBLIC_URL}>
       <Provider store={store}>
-        <AppContainer />
+        <Suspense fallback={<div>Loading... </div>}>
+          <AppContainer />
+        </Suspense>
       </Provider>
     </HashRouter>
   );

@@ -1,21 +1,20 @@
 import React from "react";
 import UsersPagination from "../Common/Pagination/Pagination";
 import User from "./User";
-import { UserPropsContainerType } from "./UsersContainer";
-import { PostType } from "../../redux/store";
+import { UserType } from "../../types/types";
 
 type UsersPropsType = {
-  followingInProgress: () => void;
-  users: PostType[];
+  followingInProgress: Array<number>;
+  users: UserType[];
   currentPage: number;
   pageSize: number;
   totalUserCount: number;
   onPageChanged: (pageNumber: number) => void;
-  follow: () => void;
-  unfollow: () => void;
+  follow: (userId: number) => void;
+  unfollow: (userId: number) => void;
 };
 
-let Users = ({
+let Users: React.FC<UsersPropsType> = ({
   followingInProgress,
   users,
   currentPage,
