@@ -20,7 +20,7 @@ import {
 type MapStateToPropsType = {
   authorizedUserId: number | null;
   status: string;
-  profile: ProfileType;
+  profile: ProfileType | null;
   isAuth: boolean;
 };
 

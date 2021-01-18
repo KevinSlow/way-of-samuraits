@@ -21,7 +21,7 @@ type ProfileTypeProps = {
   status: string;
   saveProfile: () => void;
   isOwner: boolean;
-  profile: ProfileType;
+  profile: ProfileType | null;
 };
 
 const Profile = (props: ProfileTypeProps) => {

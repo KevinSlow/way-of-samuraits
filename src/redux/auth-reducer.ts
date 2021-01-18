@@ -1,6 +1,13 @@
-import { authAPI, securityAPI } from "../api/api";
+import {
+  authAPI,
+  ResultCodeEnum,
+  ResultCodeEnumWithCaptcha,
+  securityAPI,
+} from "../api/api";
 import { stopSubmit } from "redux-form";
-import { DispatchType, ThunkType } from "../types/types";
+import { AppState, DispatchType, ThunkType } from "../types/types";
+import { ThunkAction } from "redux-thunk";
+import { Dispatch } from "react";
 
 const SET_USER_DATA = "samurai-network/auth/SET_USER_DATA";
 const GET_CAPTCHA_URL_SUCCESS = "samurai-network/auth/GET_CAPTCHA_URL_SUCCESS";
@@ -14,6 +21,10 @@ let initialState = {
 };
 
 export type initialStateType = typeof initialState;
+
+type AuthActionType = SetAuthUserDataActionType | getCaptchaURLSuccessType;
+type DispatchTypes = Dispatch<AuthActionType>;
+type AuthThunk = ThunkAction<void, AppState, unknown, AuthActionType>;
 
 const authReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
@@ -50,11 +61,11 @@ export const setAuthUserDataSuccess = (
     payload: { email, userId, login, isAuth },
   };
 
-export const setAuthUserData = (): ThunkType => async (
-  dispatch: DispatchType
+export const setAuthUserData = (): AuthThunk => async (
+  dispatch: DispatchTypes
 ) => {
   let data = await authAPI.me();
-  if (data.resultCode === 0) {
+  if (data.resultCode === ResultCodeEnum.Success) {
     let { email, id, login } = data.data;
     dispatch(setAuthUserDataSuccess(id, email, login, true));
   }
@@ -76,23 +87,21 @@ export const login = (
   password: string,
   rememberMe: string | null,
   captcha: null | undefined
-): ThunkType => async (dispatch: DispatchType) => {
-  let response = await authAPI.login(email, password, rememberMe, captcha);
-  if (response.data.resultCode === 0) {
+): AuthThunk => async (dispatch: DispatchType) => {
+  let loginData = await authAPI.login(email, password, rememberMe, captcha);
+  if (loginData.resultCode === ResultCodeEnum.Success) {
     dispatch(setAuthUserDataSuccess(email, password, rememberMe, true));
   } else {
-    if (response.data.resultCode === 10) {
+    if (loginData.resultCode === ResultCodeEnumWithCaptcha.CaptchaIsRequired) {
       dispatch(getCaptchaURL());
     }
     let message =
-      response.data.messages.length > 0
-        ? response.data.messages[0]
-        : "Some Error";
+      loginData.messages.length > 0 ? loginData.messages[0] : "Some Error";
     dispatch(stopSubmit("login", { _error: message }));
   }
 };
 
-export const getCaptchaURL = (): ThunkType => async (
+export const getCaptchaURL = (): AuthThunk => async (
   dispatch: DispatchType
 ) => {
   let response = await securityAPI.getCaptcha();
@@ -100,7 +109,9 @@ export const getCaptchaURL = (): ThunkType => async (
   dispatch(getCaptchaURLSuccess(captchaUrl));
 };
 
-export const logout = (): ThunkType => async (dispatch: DispatchType) => {
+export const logout = (): AuthThunk => async (
+  dispatch: Dispatch<AuthActionType>
+) => {
   let response = await authAPI.logout();
 
   if (response.data.resultCode === 0) {

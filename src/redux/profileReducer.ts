@@ -3,6 +3,7 @@ import { stopSubmit } from "redux-form";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
 import {
+  AppState,
   DispatchType,
   photosType,
   ProfileType,
@@ -58,15 +59,15 @@ type DeletePostType = {
 };
 
 export type ProfileAction =
-  | ChangeNewTextActionType
-  | SetUserProfileType
+  | addPostActionCreatorType
+  | setUserProfileSuccessType
+  | DeletePostType
   | SetStatusType
-  | SetPhotoType
-  | DeletePostType;
+  | savePhotoSuccessType;
 
 const profileReducer = (
   state: initialStateType = initialState,
-  action: any
+  action: ProfileAction
 ) => {
   switch (action.type) {
     case ADD_POST: {
@@ -157,23 +158,23 @@ export const savePhotoSuccess = (photos: photosType): savePhotoSuccessType => ({
 // Redux-Thunk for async query
 // -----------
 
-export const setUserProfile = (userId: number | null): ThunkType => async (
+type ThunksType = ThunkAction<void, AppState, unknown, ProfileAction>;
+
+export const setUserProfile = (userId: number | null): ThunksType => async (
   dispatch: DispatchType
 ) => {
   const response = await usersAPI.getUsersProfile(userId);
   dispatch(setUserProfileSuccess(response.data));
 };
 
-export const getStatus = (
-  userId: number
-): ThunkAction<void, StateType, unknown, Action<number>> => async (
+export const getStatus = (userId: number): ThunksType => async (
   dispatch: DispatchType
 ) => {
   const response = await profileAPI.getStatus(userId);
   dispatch(setStatus(response.data));
 };
 
-export const updateStatus = (status: string): ThunkType => async (
+export const updateStatus = (status: string): ThunksType => async (
   dispatch: DispatchType
 ) => {
   try {
@@ -186,7 +187,7 @@ export const updateStatus = (status: string): ThunkType => async (
   }
 };
 
-export const savePhoto = (file: string): ThunkType => async (
+export const savePhoto = (file: string): ThunksType => async (
   dispatch: DispatchType
 ) => {
   const response = await profileAPI.savePhoto(file);

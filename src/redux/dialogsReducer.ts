@@ -30,7 +30,11 @@ const initialState = {
   ] as Array<DialogsType>,
 };
 
-const dialogsReducer = (state = initialState, action: IActionRecucerType) => {
+type DialogsActions =
+  | addDialogActionCreatorType
+  | deleteDialogActionCreatorType;
+
+const dialogsReducer = (state = initialState, action: DialogsActions) => {
   switch (action.type) {
     case ADD_DIALOG: {
       let newDialogText = action.newMessageBody;
