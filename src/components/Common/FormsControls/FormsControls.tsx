@@ -4,9 +4,16 @@ import {
   FieldValidatorType,
   required,
 } from "../../../utils/Validators/validators";
-import { Field } from "redux-form";
+import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
 
-const FormControl = ({ input, meta: { touched, error }, children }: any) => {
+type FormControlPropsType = {
+  meta: WrappedFieldMetaProps;
+};
+
+const FormControl: React.FC<FormControlPropsType> = ({
+  meta: { touched, error },
+  children,
+}) => {
   const hasError = touched && error;
 
   return (
@@ -17,7 +24,9 @@ const FormControl = ({ input, meta: { touched, error }, children }: any) => {
   );
 };
 
-export const TextArea = (props: any) => {
+export type TextAreaTypes = {};
+
+export const TextArea: React.FC<WrappedFieldProps> = (props) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
@@ -26,7 +35,7 @@ export const TextArea = (props: any) => {
   );
 };
 
-export const Input = (props: any) => {
+export const Input: React.FC<WrappedFieldProps> = (props) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
@@ -34,15 +43,26 @@ export const Input = (props: any) => {
     </FormControl>
   );
 };
+export type LoginFormPropertiesType =
+  | "email"
+  | "password"
+  | "rememberMe"
+  | "captcha"
+  | "fullName"
+  | "lookingForAJob"
+  | "lookingForAJobDescription"
+  | "aboutMe"
+  | "contacts"
+  | "string";
 
-export const CreateField = (
-  placeholder: string,
-  name: string,
+export function CreateField<FormKeysType extends string>(
+  placeholder: string | undefined,
+  name: FormKeysType,
   validators: FieldValidatorType[],
-  component: string | React.Component | React.FC,
+  component: React.FC<WrappedFieldProps>,
   restProps = {},
   text = ""
-) => {
+) {
   return (
     <div>
       <Field
@@ -56,4 +76,4 @@ export const CreateField = (
       {text}
     </div>
   );
-};
+}
