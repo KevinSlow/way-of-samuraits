@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./Nav.module.css";
 import { NavLink } from "react-router-dom";
-import store from "../../redux/store";
+import _store from "../../redux/_store";
 
 type NavStateType = {
   state: NavPropsType;
@@ -18,7 +18,7 @@ type FriendsType = {
 };
 
 const Nav = () => {
-  let { sideBar: state } = store.getState();
+  let { sideBar: state } = _store.getState();
 
   let friendsMessages = state.friends.map((f: FriendsType) => (
     <div className={s.friendsBlock}>

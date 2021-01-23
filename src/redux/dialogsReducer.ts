@@ -1,7 +1,4 @@
-import { IActionRecucerType } from "../types/types";
-
-const ADD_DIALOG = "ADD-DIALOG";
-const DELETE_DIALOG = "DELETE_DIALOG";
+import { InferActionsTypes } from "./reduxStore";
 
 type MessageType = {
   id: number;
@@ -11,6 +8,7 @@ type DialogsType = {
   id: number;
   name: string;
 };
+
 const initialState = {
   messages: [
     { id: 1, message: "Hi" },
@@ -30,20 +28,19 @@ const initialState = {
   ] as Array<DialogsType>,
 };
 
-type DialogsActions =
-  | addDialogActionCreatorType
-  | deleteDialogActionCreatorType;
-
-const dialogsReducer = (state = initialState, action: DialogsActions) => {
+const dialogsReducer = (
+  state = initialState,
+  action: ActionsType
+): InitialStateType => {
   switch (action.type) {
-    case ADD_DIALOG: {
+    case "SN/DIALOGS/ADD-DIALOG": {
       let newDialogText = action.newMessageBody;
       return {
         ...state,
         messages: [...state.messages, { id: 6, message: newDialogText }],
       };
     }
-    case DELETE_DIALOG: {
+    case "SN/DIALOGS/DELETE_DIALOG": {
       return {
         ...state,
         dialogs: state.dialogs.filter((p) => p.id !== action.dialogId),
@@ -54,26 +51,20 @@ const dialogsReducer = (state = initialState, action: DialogsActions) => {
   }
 };
 
-type addDialogActionCreatorType = {
-  type: typeof ADD_DIALOG;
-  newMessageBody: string;
+export const actions = {
+  addDialogAction: (newMessageBody: string) =>
+    ({
+      type: "SN/DIALOGS/ADD-DIALOG",
+      newMessageBody,
+    } as const),
+  deleteDialog: (dialogId: number) =>
+    ({
+      type: "SN/DIALOGS/DELETE_DIALOG",
+      dialogId,
+    } as const),
 };
 
-export const addDialogActionCreator = (
-  newMessageBody: string
-): addDialogActionCreatorType => ({
-  type: ADD_DIALOG,
-  newMessageBody,
-});
-type deleteDialogActionCreatorType = {
-  type: typeof DELETE_DIALOG;
-  dialogId: number;
-};
-export const deleteDialog = (
-  dialogId: number
-): deleteDialogActionCreatorType => ({
-  type: DELETE_DIALOG,
-  dialogId,
-});
+type ActionsType = InferActionsTypes<typeof actions>;
+export type InitialStateType = typeof initialState;
 
 export default dialogsReducer;

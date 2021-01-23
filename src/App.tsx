@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { ComponentType, Suspense } from "react";
 
 import "./App.css";
 
@@ -13,7 +13,7 @@ import {
   Switch,
   withRouter,
 } from "react-router-dom";
-import { RootStoreType } from "./redux/store";
+import { RootStoreType } from "./redux/_store";
 
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
@@ -23,7 +23,7 @@ import { initializeApp } from "./redux/app-reducer";
 import PreLoader from "./components/Common/Preloader/Preloader";
 import store from "./redux/reduxStore";
 import { withSuspense } from "./hoc/withSuspense";
-import UsersContainerHook from "./components/Users/UsersContainerHook";
+import { AppState, StateType } from "./types/types";
 
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
@@ -35,19 +35,13 @@ const UsersContainer = React.lazy(
   () => import("./components/Users/UsersContainer")
 );
 
-type appType = {
-  initialized: boolean;
-};
-
-type AppPropsType = {
-  store: RootStoreType;
+type MapPropsType = ReturnType<typeof mapStateToProps>;
+type DispatchPropsType = {
   initializeApp: () => void;
-  app: appType;
-  initialized: boolean;
 };
 
-class App extends React.Component<AppPropsType> {
-  catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+class App extends React.Component<MapPropsType & DispatchPropsType> {
+  catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
     alert("Some error Occurred");
     // console.error(promiseRejectionEvent);
   };
@@ -78,7 +72,7 @@ class App extends React.Component<AppPropsType> {
             <Route exact render={() => <Redirect to={"/profile"} />} path="/" />
             <Route
               exact
-              render={withSuspense(DialogsContainer)}
+              render={() => withSuspense(DialogsContainer)}
               path="/dialogs"
             />
             <Route
@@ -103,16 +97,16 @@ class App extends React.Component<AppPropsType> {
   }
 }
 
-const mapStateToProps = (state: AppPropsType) => ({
+const mapStateToProps = (state: StateType) => ({
   initialized: state.app.initialized,
 });
 
-let AppContainer = compose<any>(
+let AppContainer = compose<ComponentType>(
   withRouter,
   connect(mapStateToProps, { initializeApp })
 )(App);
 
-export const SamuraiJSApp = () => {
+export const SamuraiJSApp: React.FC = () => {
   return (
     <HashRouter basename={process.env.PUBLIC_URL}>
       <Provider store={store}>

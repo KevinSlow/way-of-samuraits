@@ -1,13 +1,14 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, Action } from "redux";
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
 import authReducer from "./auth-reducer";
-import thunkMiddleware from "redux-thunk";
+import thunkMiddleware, { ThunkAction } from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
-import appReducer from "./app-reducer";
+import appReducer, { actions } from "./app-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { AppState } from "../types/types";
 
 export let rootReducer = combineReducers({
   profilePage: profileReducer,
@@ -23,11 +24,23 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(thunkMiddleware)
-    // other store enhancers if any
+    // other _store enhancers if any
   )
 );
 
-// let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+export type BaseThunkType<
+  A extends Action = Action,
+  R = Promise<void>
+> = ThunkAction<R, AppState, unknown, A>;
+
+export type InferActionsTypes<T> = T extends {
+  [keys: string]: (...args: any[]) => infer U;
+}
+  ? U
+  : never;
+export type ActionsType = InferActionsTypes<typeof actions>;
+
+// let _store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 // @ts-ignore
 window.store = store;

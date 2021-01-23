@@ -57,7 +57,7 @@ export type RootStoreType = {
   dispatch: (action: any) => void;
 };
 
-let store: RootStoreType = {
+let _store: RootStoreType = {
   _state: {
     profilePage: {
       posts: [
@@ -132,5 +132,5 @@ let store: RootStoreType = {
   },
 };
 
-export default store;
-// window.store = store;
+export default _store;
+// window._store = _store;

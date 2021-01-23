@@ -1,10 +1,10 @@
 import React from "react";
-import { addPostActionCreator } from "../../../redux/profileReducer";
-import { RootStoreType } from "../../../redux/store";
+import { RootStoreType } from "../../../redux/_store";
 import { connect } from "react-redux";
 import Profile from "../Profile";
 import MyPosts, { PostType } from "./MyPosts";
-import { DispatchType, StateType } from "../../../types/types";
+import { StateType } from "../../../types/types";
+import { actions } from "../../../redux/profileReducer";
 
 type myPostsContainerPropsType = {
   store: RootStoreType;
@@ -26,10 +26,10 @@ const mapStateToProps = (state: StateType): MapStateToProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: DispatchType): MapDispatchToProps => {
+const mapDispatchToProps = (dispatch: any): MapDispatchToProps => {
   return {
     addPosts: (newPostText) => {
-      dispatch(addPostActionCreator(newPostText));
+      dispatch(actions.addPostActionCreator(newPostText));
     },
   };
 };

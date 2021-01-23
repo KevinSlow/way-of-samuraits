@@ -1,18 +1,11 @@
-import store from "../redux/store";
+import _store from "../redux/_store";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
-import { rootReducer } from "../redux/reduxStore";
+import store, { rootReducer } from "../redux/reduxStore";
 
-export type DispatchType = typeof store.dispatch;
 export type StateType = ReturnType<AppState>;
 export type AppState = typeof rootReducer;
-export type ThunkType<ReturnType = void> = ThunkAction<
-  ReturnType,
-  StateType,
-  unknown,
-  Action<string>
->;
-
+export type DispatchType = typeof store.dispatch;
 export interface IActionRecucerType {
   type: string;
   newPostText: string;
@@ -38,7 +31,7 @@ export type ContactsType = {
   youtube: string;
   mainLink: string;
 };
-export type photosType = {
+export type PhotosType = {
   small: string | null;
   large: string | null;
 };
@@ -48,7 +41,7 @@ export type ProfileType = {
   lookingForAJobDescription: string;
   fullName: string;
   contacts: ContactsType;
-  photos: photosType;
+  photos: PhotosType;
 };
 
 type PostType = {
@@ -61,7 +54,7 @@ export type UserType = {
   id: number;
   name: string;
   uniqueUrlName: string | null;
-  photos: photosType;
+  photos: PhotosType;
   status: string | null;
   followed: boolean;
 };

@@ -1,30 +1,19 @@
-import React from "react";
-import { addDialogActionCreator } from "../../redux/dialogsReducer";
+import React, { ComponentType } from "react";
 import Dialogs from "./Dialogs";
-import { RootStoreType } from "../../redux/store";
+
 import { connect } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import { StateType } from "../../types/types";
+import { actions } from "../../redux/dialogsReducer";
 
-type dialogsContainerPropsType = {
-  store: RootStoreType;
-};
-
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     dialogsPage: state.dialogsPage,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    sendMessage: (newMessageBody: string) => {
-      dispatch(addDialogActionCreator(newMessageBody));
-    },
-  };
-};
-
-export default compose<any>(
-  connect(mapStateToProps, mapDispatchToProps),
+export default compose<ComponentType>(
+  connect(mapStateToProps, { ...actions }),
   withAuthRedirect
 )(Dialogs);

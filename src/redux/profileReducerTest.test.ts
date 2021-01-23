@@ -1,7 +1,4 @@
-import profileReducer, {
-  addPostActionCreator,
-  deletePost,
-} from "./profileReducer";
+import profileReducer, { actions } from "./profileReducer";
 import React, { createElement } from "react";
 import ReactDOM from "react-dom";
 import App from "../App";
@@ -21,7 +18,7 @@ const state = {
 test("after deleting messages,increment expected ", () => {
   // 1. Test Data
 
-  let action = deletePost(1);
+  let action = actions.deletePost(1);
 
   /// 2. Action
 
@@ -35,7 +32,7 @@ test("after deleting messages,increment expected ", () => {
 test("Posts length should be incremented", () => {
   // 1. Test Data
 
-  let action = addPostActionCreator("New Post");
+  let action = actions.addPostActionCreator("New Post");
 
   /// 2. Action
 
@@ -49,7 +46,7 @@ test("Posts length should be incremented", () => {
 test("after deleting length shouldnt be decrement id ID is incorrect", () => {
   // 1. Test Data
 
-  let action = deletePost(10000);
+  let action = actions.deletePost(10000);
 
   /// 2. Action
 
