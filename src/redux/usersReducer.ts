@@ -1,13 +1,7 @@
 import { updateObjectInArray } from "../hoc/objectsHelpers";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "redux";
-import {
-  AppState,
-  DispatchType,
-  IActionRecucerType,
-  StateType,
-  UserType,
-} from "../types/types";
+import { DispatchType, IActionRecucerType, UserType } from "../types/types";
 import { Dispatch } from "react";
 
 import { usersAPI } from "../api/usersAPI";
@@ -137,7 +131,7 @@ export const follow = (userId: number): ThunkType => {
     await _followUnfollowFlow(
       dispatch,
       userId,
-      usersAPI.followUsers.bind(usersAPI),
+      usersAPI.follow.bind(usersAPI),
       actions.followSuccess
     );
   };
@@ -147,7 +141,7 @@ export const unfollow = (userId: number): ThunkType => {
     await _followUnfollowFlow(
       dispatch,
       userId,
-      usersAPI.unfollowUsers.bind(usersAPI),
+      usersAPI.unfollow.bind(usersAPI),
       actions.unfollowSuccess
     );
   };

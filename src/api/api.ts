@@ -10,12 +10,21 @@ export const instance = axios.create({
   },
 });
 
-export type GetUsersItemsType = {
+export enum ResultCodesEnum {
+  Success = 0,
+  Error = 1,
+}
+
+export enum ResultCodeForCapcthaEnum {
+  CaptchaIsRequired = 10,
+}
+
+export type GetItemsType = {
   items: Array<UserType>;
   totalCount: number;
   error: string | null;
 };
-export type APIResponseType<D = {}, RC = ResultCodeEnum> = {
+export type APIResponseType<D = {}, RC = ResultCodesEnum> = {
   data: D;
   messages: Array<string>;
   resultCode: RC;

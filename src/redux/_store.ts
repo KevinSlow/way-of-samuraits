@@ -1,24 +1,8 @@
-import profileReducer, { ProfileAction } from "./profileReducer";
+import profileReducer from "./profileReducer";
 
 import dialogsReducer from "./dialogsReducer";
 import sidebarReducer from "./sidebarReducer";
-import { ThunkAction } from "redux-thunk";
-import { Action } from "redux";
-
-type MessageType = {
-  id: number;
-  message: string;
-};
-type DialogType = {
-  id: number;
-  name: string;
-};
-
-export type PostType = {
-  id: number;
-  message: string;
-  likesCount: number;
-};
+import { DialogType, MessageType, PostType } from "../types/types";
 
 export type sideBar = {
   id: number;

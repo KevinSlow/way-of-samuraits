@@ -5,7 +5,10 @@ import {
   ResultCodeEnumWithCaptcha,
 } from "../api/authAPI";
 import { securityAPI } from "../api/securityAPI";
-import { BaseThunkType, InferActionsTypes } from "./reduxStore";
+import store, { BaseThunkType, InferActionsTypes } from "./reduxStore";
+import { ProfileType } from "../types/types";
+import { profileAPI } from "../api/profileAPI";
+import { ResultCodesEnum } from "../api/api";
 
 let initialState = {
   userId: null as number | null,
@@ -50,7 +53,7 @@ const authReducer = (
 
 export const setAuthUserData = (): AuthThunk => async (dispatch) => {
   let data = await authAPI.me();
-  if (data.resultCode === ResultCodeEnum.Success) {
+  if (data.resultCode === ResultCodesEnum.Success) {
     let { email, id, login } = data.data;
     dispatch(actions.setAuthUserDataSuccess(id, email, login, true));
   }
@@ -88,6 +91,7 @@ export const logout = (): AuthThunk => async (dispatch) => {
     dispatch(actions.setAuthUserDataSuccess(null, null, null, false));
   }
 };
+
 //
 // export const setIsFetching = (isFetching: boolean) => (
 //     {type: TOGGLE_IS_FETCHING, isFetching}

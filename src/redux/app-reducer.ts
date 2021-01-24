@@ -1,13 +1,8 @@
 import { setAuthUserData } from "./auth-reducer";
 import { ThunkAction } from "redux-thunk";
-import {
-  AppState,
-  DispatchType,
-  IActionRecucerType,
-  StateType,
-} from "../types/types";
+import { DispatchType, IActionRecucerType } from "../types/types";
 
-import { ActionsType, BaseThunkType } from "./reduxStore";
+import { BaseThunkType, InferActionsTypes } from "./reduxStore";
 
 type InitialStateType = typeof initialState;
 
@@ -15,6 +10,7 @@ let initialState = {
   initialized: false,
   globalError: null,
 };
+type ActionsType = InferActionsTypes<typeof actions>;
 
 type ThunkAppType = BaseThunkType<ActionsType>;
 

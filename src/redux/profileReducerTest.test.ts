@@ -32,7 +32,7 @@ test("after deleting messages,increment expected ", () => {
 test("Posts length should be incremented", () => {
   // 1. Test Data
 
-  let action = actions.addPostActionCreator("New Post");
+  let action = actions.addPostAction("New Post");
 
   /// 2. Action
 

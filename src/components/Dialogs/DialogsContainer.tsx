@@ -4,8 +4,9 @@ import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
-import { StateType } from "../../types/types";
+
 import { actions } from "../../redux/dialogsReducer";
+import { StateType } from "../../redux/reduxStore";
 
 const mapStateToProps = (state: StateType) => {
   return {

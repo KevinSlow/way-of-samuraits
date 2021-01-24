@@ -5,6 +5,7 @@ import {
   required,
 } from "../../../utils/Validators/validators";
 import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
+import { LoginFormValuesType } from "../../Login/Login";
 
 type FormControlPropsType = {
   meta: WrappedFieldMetaProps;
@@ -77,3 +78,5 @@ export function CreateField<FormKeysType extends string>(
     </div>
   );
 }
+
+export type GetStringKeys<T> = Extract<keyof T, string>;

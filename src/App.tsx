@@ -21,9 +21,10 @@ import { connect, Provider } from "react-redux";
 import { compose } from "redux";
 import { initializeApp } from "./redux/app-reducer";
 import PreLoader from "./components/Common/Preloader/Preloader";
-import store from "./redux/reduxStore";
+import store, { StateType } from "./redux/reduxStore";
 import { withSuspense } from "./hoc/withSuspense";
-import { AppState, StateType } from "./types/types";
+
+import Profile from "./components/Profile/Profile";
 
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
@@ -39,6 +40,9 @@ type MapPropsType = ReturnType<typeof mapStateToProps>;
 type DispatchPropsType = {
   initializeApp: () => void;
 };
+
+const SuspendedDialogs = withSuspense(DialogsContainer);
+const SuspendedProfile = withSuspense(ProfileContainer);
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
@@ -70,14 +74,10 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
         <div className="app-wrapper-content">
           <Switch>
             <Route exact render={() => <Redirect to={"/profile"} />} path="/" />
+            <Route exact render={() => <SuspendedDialogs />} path="/dialogs" />
             <Route
               exact
-              render={() => withSuspense(DialogsContainer)}
-              path="/dialogs"
-            />
-            <Route
-              exact
-              render={withSuspense(ProfileContainer)}
+              render={() => <SuspendedProfile />}
               path="/profile/:userId?"
             />
             <Route exact component={News} path="/news" />

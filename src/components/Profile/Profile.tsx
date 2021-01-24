@@ -13,12 +13,12 @@ type Profile = {
 };
 
 type ProfileTypeProps = {
-  setUserProfile: (userId: number | null) => void;
+  setUserProfile: (userId: number) => void;
   getStatus: (userId: number) => void;
-  savePhoto: () => void;
-  updateStatus: () => void;
+  savePhoto: (file: File) => void;
+  updateStatus: (status: string) => void;
   status: string;
-  saveProfile: () => void;
+  saveProfile: (Profile: ProfileType) => Promise<any>;
   isOwner: boolean;
   profile: ProfileType | null;
 };

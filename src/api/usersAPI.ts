@@ -1,26 +1,27 @@
-import { GetUsersItemsType, instance } from "./api";
-import { profileAPI } from "./profileAPI";
-import { AxiosPromise } from "axios";
+import { GetItemsType, instance, APIResponseType } from "./api";
 
 export const usersAPI = {
-  getUsers(currentPage = 1, pageSize = 10) {
+  getUsers(
+    currentPage = 1,
+    pageSize = 10,
+    term: string = "",
+    friend: null | boolean = null
+  ) {
     return instance
-      .get<GetUsersItemsType>(`users?page=${currentPage}&count=${pageSize}`)
-      .then((response) => {
-        return response.data;
-      });
+      .get<GetItemsType>(
+        `users?page=${currentPage}&count=${pageSize}&term=${term}` +
+          (friend === null ? "" : `&friend=${friend}`)
+      )
+      .then((res) => res.data);
   },
-  getUsersProfile(userId: number | null) {
-    return profileAPI.getUsersProfile(userId);
+  follow(userId: number) {
+    return instance
+      .post<APIResponseType>(`follow/${userId}`)
+      .then((res) => res.data);
   },
-  unfollowUsers(userId: number | null) {
-    return instance.delete(`/follow/${userId}`).then((response) => {
-      return response.data;
-    }) as AxiosPromise<ResponseType>;
-  },
-  followUsers(userId: number | null) {
-    return instance.post<ResponseType>(`/follow/${userId}`).then((response) => {
-      return response.data;
-    });
+  unfollow(userId: number) {
+    return instance
+      .delete(`follow/${userId}`)
+      .then((res) => res.data) as Promise<APIResponseType>;
   },
 };

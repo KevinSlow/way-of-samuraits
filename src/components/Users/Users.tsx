@@ -32,7 +32,7 @@ let Users: React.FC<UsersPropsType> = ({
         onPageChanged={onPageChanged}
       />
       <div>
-        {users.map((u: { id: number }) => (
+        {users.map((u) => (
           <User
             key={u.id}
             user={u}

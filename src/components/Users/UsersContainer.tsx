@@ -12,8 +12,9 @@ import {
   getTotalUserCount,
   getUsers,
 } from "../../redux/users-selectors";
-import { StateType, UserType } from "../../types/types";
+import { UserType } from "../../types/types";
 import { ThunkDispatch } from "redux-thunk";
+import { StateType } from "../../redux/reduxStore";
 
 type MapStateToPropsType = {
   currentPage: number;

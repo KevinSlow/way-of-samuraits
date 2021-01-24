@@ -2,9 +2,10 @@ import React from "react";
 import { RootStoreType } from "../../../redux/_store";
 import { connect } from "react-redux";
 import Profile from "../Profile";
-import MyPosts, { PostType } from "./MyPosts";
-import { StateType } from "../../../types/types";
+import MyPosts from "./MyPosts";
+import { PostType } from "../../../types/types";
 import { actions } from "../../../redux/profileReducer";
+import { StateType } from "../../../redux/reduxStore";
 
 type myPostsContainerPropsType = {
   store: RootStoreType;
@@ -23,25 +24,14 @@ const mapStateToProps = (state: StateType): MapStateToProps => {
   return {
     post: state.profilePage.posts,
     newPostText: state.profilePage.newPostText,
-  };
+  } as MapStateToProps;
 };
 
-const mapDispatchToProps = (dispatch: any): MapDispatchToProps => {
-  return {
-    addPosts: (newPostText) => {
-      dispatch(actions.addPostActionCreator(newPostText));
-    },
-  };
-};
-
-const MyPostsContainer: any = connect<
+const MyPostsContainer = connect<
   MapStateToProps,
-  unknown,
   MapDispatchToProps,
+  {},
   StateType
->(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyPosts);
+>(mapStateToProps, { addPosts: actions.addPostAction })(MyPosts);
 
 export default MyPostsContainer;

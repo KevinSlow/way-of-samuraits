@@ -1,10 +1,5 @@
-import _store from "../redux/_store";
-import { ThunkAction } from "redux-thunk";
-import { Action } from "redux";
-import store, { rootReducer } from "../redux/reduxStore";
+import store from "../redux/reduxStore";
 
-export type StateType = ReturnType<AppState>;
-export type AppState = typeof rootReducer;
 export type DispatchType = typeof store.dispatch;
 export interface IActionRecucerType {
   type: string;
@@ -37,6 +32,7 @@ export type PhotosType = {
 };
 export type ProfileType = {
   userId: number;
+  aboutMe: string;
   lookingForAJob: string;
   lookingForAJobDescription: string;
   fullName: string;
@@ -44,7 +40,7 @@ export type ProfileType = {
   photos: PhotosType;
 };
 
-type PostType = {
+export type PostType = {
   id: number;
   message: string;
   likesCount: number;
@@ -57,4 +53,12 @@ export type UserType = {
   photos: PhotosType;
   status: string | null;
   followed: boolean;
+};
+export type MessageType = {
+  id: number;
+  message: string;
+};
+export type DialogType = {
+  id: number;
+  name: string;
 };
