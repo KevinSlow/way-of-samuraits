@@ -2,7 +2,7 @@ import React from "react";
 import UsersPagination from "../Common/Pagination/Pagination";
 import User from "./User";
 import { UserType } from "../../types/types";
-import { Formik } from "formik/dist/Formik";
+import { UsersSearchForm } from "./UsersSearchForm";
 
 type UsersPropsType = {
   followingInProgress: Array<number>;
@@ -44,62 +44,6 @@ let Users: React.FC<UsersPropsType> = ({
           />
         ))}
       </div>
-    </div>
-  );
-};
-
-const UsersSearchFormValidate = (values: any) => {
-  const errors = {};
-  return errors;
-};
-
-type UsersSearchFormType = {
-  term: string;
-};
-
-const UsersSearchForm = () => {
-  const submit = (
-    values: UsersSearchFormType,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
-  };
-
-  return (
-    <div>
-      <Formik
-        initialValues={{ term: "Find" }}
-        validate={UsersSearchFormValidate}
-        onSubmit={submit}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          /* and other goodies */
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="term"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.term}
-            />
-
-            <button type="submit" disabled={isSubmitting}>
-              Submit
-            </button>
-          </form>
-        )}
-      </Formik>
     </div>
   );
 };
