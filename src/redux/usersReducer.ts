@@ -16,7 +16,7 @@ let initialState = {
   followingInProgress: [] as Array<number>,
 };
 
-type InitialState = typeof initialState;
+export type InitialState = typeof initialState;
 
 const usersReducer = (
   state = initialState,
@@ -121,7 +121,7 @@ const _followUnfollowFlow = async (
   dispatch(actions.setFollowingProgress(true, userId));
   let response = await apiMethod(userId);
 
-  if (response.resultCode == 0) {
+  if (response.resultCode === 0) {
     dispatch(actionCreator(userId));
   }
   dispatch(actions.setFollowingProgress(false, userId));
