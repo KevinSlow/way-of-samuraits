@@ -20,6 +20,7 @@
     "@types/reselect": "^2.2.0",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
+    "formik": "^2.2.6",
     "global": "^4.4.0",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
