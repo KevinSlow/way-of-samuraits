@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "./Header";
+import { AppHeader } from "./Header";
 import { connect } from "react-redux";
 import { logout } from "../../redux/auth-reducer";
 import { StateType } from "../../redux/reduxStore";
@@ -12,8 +12,8 @@ type PropsType = {
 type DispatchPropsType = {
   logout: () => void;
 };
-const HeaderContainer: React.FC<PropsType & DispatchPropsType> = (props) => {
-  return <Header {...props} />;
+const _HeaderContainer: React.FC<PropsType & DispatchPropsType> = (props) => {
+  return <AppHeader {...props} />;
 };
 const mapStateToProps = (state: StateType) =>
   ({
@@ -28,4 +28,4 @@ export default connect<PropsType, DispatchPropsType, {}, StateType>(
   {
     logout,
   }
-)(HeaderContainer);
+)(_HeaderContainer);

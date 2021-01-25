@@ -3,7 +3,7 @@ import { UserType } from "../types/types";
 import { Dispatch } from "react";
 
 import { usersAPI } from "../api/usersAPI";
-import { BaseThunkType, InferActionsTypes } from "./reduxStore";
+import { BaseThunkType, InferActionsTypes, StateType } from "./reduxStore";
 import { APIResponseType, ResultCodesEnum } from "../api/api";
 
 let initialState = {
@@ -15,10 +15,13 @@ let initialState = {
   followingInProgress: [] as Array<number>,
   filter: {
     term: "",
+    friend: null as null | boolean,
+  },
+  photos: {
+    small: null,
+    large: null,
   },
 };
-
-export type InitialState = typeof initialState;
 
 const usersReducer = (
   state = initialState,
@@ -56,7 +59,7 @@ const usersReducer = (
         ...state,
         followingInProgress: action.isFetching
           ? [...state.followingInProgress, action.userId]
-          : state.followingInProgress.filter((id) => id != action.userId),
+          : state.followingInProgress.filter((id) => id !== action.userId),
       };
 
     case "SN/USERS/SET_FILTER": {
@@ -87,11 +90,8 @@ export const actions = {
       type: "SN/USERS/SET_CURRENT_PAGE",
       currentPage: currentPage,
     } as const),
-  setFilter: (term: string) =>
-    ({
-      type: "SN/USERS/SET_FILTER",
-      payload: { term },
-    } as const),
+  setFilter: (filter: FilterType) =>
+    ({ type: "SN/USERS/SET_FILTER", payload: filter } as const),
   setTotalUserCount: (totalUserCount: number) =>
     ({
       type: "SN/USERS/SET_TOTAL_USERS_COUNT",
@@ -113,14 +113,21 @@ export const actions = {
 export const requestUsers = (
   page: number,
   pageSize: number,
-  term: string
+  filter: FilterType
 ): ThunkType => {
   return async (dispatch, getState) => {
     dispatch(actions.setIsFetching(true));
     dispatch(actions.setCurrentPage(page));
-    dispatch(actions.setFilter(term));
+    debugger;
+    dispatch(actions.setFilter(filter));
 
-    let data = await usersAPI.getUsers(page, pageSize, term);
+    let data = await usersAPI.getUsers(
+      page,
+      pageSize,
+      filter.term,
+      filter.friend
+    );
+
     dispatch(actions.setIsFetching(false));
     dispatch(actions.setUsers(data.items));
     dispatch(actions.setTotalUserCount(data.totalCount));
@@ -162,7 +169,13 @@ export const unfollow = (userId: number): ThunkType => {
   };
 };
 
+export const getUsersFilter = (state: StateType) => {
+  return state.usersPage.filter;
+};
+
 type ThunkType = BaseThunkType<ActionsTypes>;
 type ActionsTypes = InferActionsTypes<typeof actions>;
+export type InitialState = typeof initialState;
+export type FilterType = typeof initialState.filter;
 
 export default usersReducer;

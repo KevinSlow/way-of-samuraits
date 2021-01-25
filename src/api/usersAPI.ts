@@ -9,8 +9,7 @@ export const usersAPI = {
   ) {
     return instance
       .get<GetItemsType>(
-        `users?page=${currentPage}&count=${pageSize}&term=${term}` +
-          (friend === null ? "" : `&friend=${friend}`)
+        `users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${friend}`
       )
       .then((res) => res.data);
   },
