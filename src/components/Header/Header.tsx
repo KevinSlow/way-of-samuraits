@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentUserLogin,
   selectIsAuth,
-  selectUserIcon,
 } from "../../redux/authSelectors";
 import { logout } from "../../redux/auth-reducer";
 import { getUsers } from "../../redux/users-selectors";
@@ -22,11 +21,11 @@ export const AppHeader: React.FC<PropsType> = (props) => {
   const isAuth = useSelector(selectIsAuth);
   const login = useSelector(selectCurrentUserLogin);
   const Dispatch = useDispatch();
-  const users = useSelector(getUsers);
+
   const logoutResolver = () => {
     Dispatch(logout());
   };
-  console.log(users);
+
   return (
     <Header className="header">
       <div className="logo" />

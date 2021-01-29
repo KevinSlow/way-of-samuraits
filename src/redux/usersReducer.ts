@@ -17,10 +17,6 @@ let initialState = {
     term: "",
     friend: null as null | boolean,
   },
-  photos: {
-    small: null,
-    large: null,
-  },
 };
 
 const usersReducer = (
