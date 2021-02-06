@@ -6,16 +6,17 @@ import { DialogPageType } from "../../redux/_store";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import {
   CreateField,
-  Input,
+  MyInput,
   TextArea,
 } from "../Common/FormsControls/FormsControls";
 import { maxLengthCreator, required } from "../../utils/Validators/validators";
 import { InitialStateType } from "../../redux/dialogsReducer";
 import { Redirect } from "react-router-dom";
+import { Button } from "antd";
 
 type StatePropsType = {
   dialogsPage: DialogPageType;
-  sendMessage: (newMessageBody: string) => void;
+  addDialogAction: (newMessageBody: string) => void;
   updateNewMessageBody: (text: string) => void;
   isAuth: boolean;
 };
@@ -37,7 +38,7 @@ const maxLength = maxLengthCreator(100);
 
 type OwnPropsType = {
   dialogsPage: InitialStateType;
-  sendMessage: (newMessageBody: string) => void;
+  addDialogAction: (newMessageBody: string) => void;
 };
 export type NewMessageFormValuesType = {
   newMessageBody: string;
@@ -58,7 +59,7 @@ const Dialogs: React.FC<OwnPropsType> = (props) => {
 
   const addNewMessage = (values: { newMessageBody: string }) => {
     console.log(values);
-    props.sendMessage(values.newMessageBody);
+    props.addDialogAction(values.newMessageBody);
   };
 
   return (
@@ -73,7 +74,6 @@ const Dialogs: React.FC<OwnPropsType> = (props) => {
     </div>
   );
 };
-
 const AddMessageForm: React.FC<
   InjectedFormProps<NewMessageFormValuesType, PropsType> & PropsType
 > = (props) => {
@@ -87,8 +87,7 @@ const AddMessageForm: React.FC<
           TextArea,
           { type: "text" }
         )}
-
-        <button className={s.send}></button>
+        <Button htmlType={"submit"}>Button</Button>
       </form>
     </div>
   );

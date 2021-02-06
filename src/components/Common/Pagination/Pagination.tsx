@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import s from "./Pagination.module.css";
 import cn from "classnames";
+import { Button } from "antd";
 
 type PaginationProps = {
   totalUserCount: number;
@@ -32,13 +33,13 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className={cn(s.paginator)}>
       {portionNumber > 1 && (
-        <button
+        <Button
           onClick={() => {
             setPortionNumber(portionNumber - 1);
           }}
         >
           Prev
-        </button>
+        </Button>
       )}
       {pages
         .filter(
@@ -46,7 +47,8 @@ const Pagination: React.FC<PaginationProps> = ({
         )
         .map((p) => {
           return (
-            <span
+            <Button
+              type={"primary"}
               className={cn(
                 { [s.selectedPage]: currentPage === p },
                 s.pageNumber
@@ -57,17 +59,17 @@ const Pagination: React.FC<PaginationProps> = ({
             >
               {" "}
               {p}
-            </span>
+            </Button>
           );
         })}
       {portionCount > portionNumber && (
-        <button
+        <Button
           onClick={() => {
             setPortionNumber(portionNumber + 1);
           }}
         >
           Next
-        </button>
+        </Button>
       )}
     </div>
   );

@@ -8,7 +8,7 @@ import thunkMiddleware, { ThunkAction } from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
 import appReducer, { actions } from "./app-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-
+import { compose } from "redux";
 let rootReducer = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,

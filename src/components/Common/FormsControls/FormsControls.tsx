@@ -1,11 +1,9 @@
 import React from "react";
 import s from "./FormsControls.module.css";
-import {
-  FieldValidatorType,
-  required,
-} from "../../../utils/Validators/validators";
+import { FieldValidatorType } from "../../../utils/Validators/validators";
 import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
-import { LoginFormValuesType } from "../../Login/Login";
+
+import { Input } from "antd";
 
 type FormControlPropsType = {
   meta: WrappedFieldMetaProps;
@@ -31,16 +29,23 @@ export const TextArea: React.FC<WrappedFieldProps> = (props) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
-      <textarea {...input} {...restProps} />
+      <Input type="textarea" {...input} {...restProps} />
     </FormControl>
   );
 };
 
-export const Input: React.FC<WrappedFieldProps> = (props) => {
+export const MyInput: React.FC<WrappedFieldProps> = (props) => {
   const { input, meta, ...restProps } = props;
   return (
     <FormControl {...props}>
-      <input {...input} {...restProps} />
+      <Input {...input} {...restProps} />
+    </FormControl>
+  );
+};
+export const Checkbox = (props: any) => {
+  return (
+    <FormControl {...props}>
+      <Checkbox {...props} />
     </FormControl>
   );
 };

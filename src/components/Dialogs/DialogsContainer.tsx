@@ -13,7 +13,7 @@ const mapStateToProps = (state: StateType) => {
     dialogsPage: state.dialogsPage,
   };
 };
-
+console.log(actions);
 export default compose<ComponentType>(
   connect(mapStateToProps, { ...actions }),
   withAuthRedirect

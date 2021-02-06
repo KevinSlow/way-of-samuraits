@@ -4,6 +4,7 @@ import userPhoto from "../../assets/img/image.jpg";
 import { NavLink } from "react-router-dom";
 import UsersPagination from "../Common/Pagination/Pagination";
 import { UserType } from "../../types/types";
+import { Button } from "antd";
 
 type PropsType = {
   user: UserType;
@@ -32,23 +33,23 @@ let User: React.FC<PropsType> = ({
         </div>
         <div>
           {user.followed ? (
-            <button
+            <Button
               disabled={followingInProgress.some((id: any) => id === user.id)}
               onClick={() => {
                 unfollow(user.id);
               }}
             >
               Unfollow
-            </button>
+            </Button>
           ) : (
-            <button
+            <Button
               disabled={followingInProgress.some((id: any) => id === user.id)}
               onClick={() => {
                 follow(user.id);
               }}
             >
               Follow
-            </button>
+            </Button>
           )}
         </div>
       </span>

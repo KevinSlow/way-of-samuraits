@@ -66,11 +66,12 @@ export const login = (
   captcha: null | undefined
 ): AuthThunk => async (dispatch) => {
   let loginData = await authAPI.login(email, password, rememberMe, captcha);
+  console.log(loginData.resultCode);
   if (loginData.resultCode === ResultCodeEnum.Success) {
     dispatch(actions.setAuthUserDataSuccess(email, password, rememberMe, true));
   } else {
     if (loginData.resultCode === ResultCodeEnumWithCaptcha.CaptchaIsRequired) {
-      dispatch(getCaptchaURL());
+      await dispatch(getCaptchaURL());
     }
     let message =
       loginData.messages.length > 0 ? loginData.messages[0] : "Some Error";

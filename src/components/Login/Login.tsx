@@ -3,7 +3,7 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import {
   CreateField,
   GetStringKeys,
-  Input,
+  MyInput,
 } from "../Common/FormsControls/FormsControls";
 import { required } from "../../utils/Validators/validators";
 import { connect } from "react-redux";
@@ -11,6 +11,7 @@ import { login } from "../../redux/auth-reducer";
 import { Redirect } from "react-router-dom";
 import s from "../Common/FormsControls/FormsControls.module.css";
 import { StateType } from "../../redux/reduxStore";
+import { Button } from "antd";
 
 type LoginFormOwnProps = {
   captchaUrl: string | null;
@@ -25,14 +26,14 @@ const LoginForm: React.FC<
         "email",
         "email",
         [required],
-        Input,
+        MyInput,
         { type: "text" }
       )}
       {CreateField<LoginFormValuesTypeKeys>(
         "password",
         "password",
         [required],
-        Input,
+        MyInput,
         {
           type: "password",
         }
@@ -41,7 +42,7 @@ const LoginForm: React.FC<
         "",
         "rememberMe",
         [],
-        Input,
+        MyInput,
         { type: "checkbox" },
         "remember Me"
       )}
@@ -52,13 +53,15 @@ const LoginForm: React.FC<
           "Symbols from image",
           "captcha",
           [required],
-          Input,
+          MyInput,
           {}
         )}
 
       {error && <div className={s.formSummaryError}>{error}</div>}
       <div>
-        <button>Login</button>
+        <Button type="primary" htmlType="submit">
+          Login
+        </Button>
       </div>
     </form>
   );
@@ -92,8 +95,6 @@ type LoginFormValuesTypeKeys = GetStringKeys<LoginFormValuesType>;
 
 const Login: React.FC<MapStatePropsType & MapDispatchPropsType> = (props) => {
   const onSubmit = (formData: LoginFormValuesType) => {
-    console.log(formData);
-
     props.login(
       formData.email,
       formData.password,

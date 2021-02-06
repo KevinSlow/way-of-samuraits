@@ -10,6 +10,9 @@ import {
   GetStringKeys,
   TextArea,
 } from "../../Common/FormsControls/FormsControls";
+import { Button } from "antd";
+import { Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
 const maxLength10 = maxLengthCreator(10);
 type PropsType = {
@@ -18,11 +21,12 @@ type PropsType = {
 export type AddPostFormValuesType = {
   newPostText: string;
 };
-type mapDispatchToProps = {};
+
 type AddPostFormTypeKeys = GetStringKeys<AddPostFormValuesType>;
 const AddPost: React.FC<
   InjectedFormProps<AddPostFormValuesType, PropsType> & PropsType
 > = (props) => {
+  debugger;
   return (
     <form onSubmit={props.handleSubmit}>
       {CreateField<AddPostFormTypeKeys>(
@@ -31,7 +35,7 @@ const AddPost: React.FC<
         [required, maxLength10],
         TextArea
       )}
-      <button>Add Post</button>
+      <Button htmlType={"submit"}>Add Post</Button>
     </form>
   );
 };

@@ -5,8 +5,10 @@ import { UserType } from "../../types/types";
 import { UsersSearchForm } from "./UsersSearchForm";
 import {
   FilterType,
+  follow,
   getUsersFilter,
   requestUsers,
+  unfollow,
 } from "../../redux/usersReducer";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -92,10 +94,10 @@ let Users: React.FC<PropsType> = () => {
   const onFilterChanged = (filter: FilterType) => {
     dispatch(requestUsers(1, pageSize, filter));
   };
-  const follow = (userId: number) => {
+  const Follow = (userId: number) => {
     dispatch(follow(userId));
   };
-  const unfollow = (userId: number) => {
+  const Unfollow = (userId: number) => {
     dispatch(unfollow(userId));
   };
   return (
@@ -112,8 +114,8 @@ let Users: React.FC<PropsType> = () => {
           <User
             key={u.id}
             user={u}
-            follow={follow}
-            unfollow={unfollow}
+            follow={Follow}
+            unfollow={Unfollow}
             followingInProgress={followingInProgress}
           />
         ))}

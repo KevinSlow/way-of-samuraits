@@ -4,11 +4,12 @@ import lg from "../../Common/FormsControls/FormsControls.module.css";
 import {
   CreateField,
   GetStringKeys,
-  Input,
+  MyInput,
   TextArea,
 } from "../../Common/FormsControls/FormsControls";
 import { InjectedFormProps, reduxForm } from "redux-form";
 import { ProfileType } from "../../../types/types";
+import { Button } from "antd";
 
 type PropsTypes = {
   profile: ProfileType;
@@ -21,21 +22,23 @@ const ProfileDataForm: React.FC<
   return (
     <form onSubmit={handleSubmit} className={s.descriptionBlock}>
       <div>
-        <button>save</button>
+        <Button type="primary" htmlType="submit">
+          Save
+        </Button>
       </div>
       {error && <div className={lg.formSummaryError}>{error}</div>}
       <div>
         {" "}
         Full Name{" "}
         <div>
-          {CreateField<ProfileTypeKeys>("Full name", "fullName", [], Input)}
+          {CreateField<ProfileTypeKeys>("Full name", "fullName", [], MyInput)}
         </div>
       </div>
       {/*<div>{profile.aboutMe}</div>*/}
 
       <div>
         Looking for a Job{" "}
-        {CreateField<ProfileTypeKeys>("", "lookingForAJob", [], Input, {
+        {CreateField<ProfileTypeKeys>("", "lookingForAJob", [], MyInput, {
           type: "checkbox",
         })}
       </div>
@@ -59,7 +62,7 @@ const ProfileDataForm: React.FC<
             return (
               <div key={key} className={s.contact}>
                 <strong>
-                  {key}: {CreateField(key, "contacts." + key, [], Input)}
+                  {key}: {CreateField(key, "contacts." + key, [], MyInput)}
                 </strong>
               </div>
             );

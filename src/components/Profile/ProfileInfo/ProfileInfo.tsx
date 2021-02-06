@@ -1,12 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
 import s from "./ProfileInfo.module.css";
 import PreLoader from "../../Common/Preloader/Preloader";
-import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../assets/img/image.jpg";
 import ProfileDataForm from "./ProfileDataForm";
 import { ContactsType, ProfileType } from "../../../types/types";
-
+import { Button, Input, Upload } from "antd";
+import { RcFile } from "antd/lib/upload/interface";
+import { UploadOutlined } from "@ant-design/icons";
 type PropsType = {
   profile: ProfileType | null;
   status: string;
@@ -30,11 +31,28 @@ const ProfileInfo: React.FC<PropsType> = ({
     return <PreLoader />;
   }
 
-  const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+  const onMainPhotoSelected = (file: RcFile) => {
+    savePhoto(file);
+    return userPhoto;
+  };
+  const photoUpload = {
+    action: userPhoto,
+    onChange({ file, fileList }: any) {
+      if (file.status !== "uploading") {
+        console.log(file, fileList);
+      }
+    },
+    showUploadList: {
+      showDownloadIcon: true,
+      downloadIcon: "download ",
+      showRemoveIcon: true,
+    },
+  };
+  /*const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
       savePhoto(e.target.files[0]);
     }
-  };
+  };*/
 
   const onSubmit = (formData: ProfileType) => {
     saveProfile(formData).then(() => {
@@ -52,7 +70,14 @@ const ProfileInfo: React.FC<PropsType> = ({
         src={profile.photos.large || userPhoto}
         alt=""
       />
-      {isOwner && <input type={"file"} onChange={onMainPhotoSelected} />}
+      {isOwner && (
+        // <Upload action={onMainPhotoSelected}>
+        //   <Button>Upload Directory</Button>
+        // </Upload>
+        <Upload action={onMainPhotoSelected} showUploadList={false}>
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        </Upload>
+      )}
       <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
       {editMode ? (
         <ProfileDataForm
@@ -87,7 +112,7 @@ const ProfileData: React.FC<ProfileDataPropsType> = ({
     <div className={s.descriptionBlock}>
       {isOwner && (
         <div>
-          <button onClick={goToEditMode}>edit</button>
+          <Button onClick={goToEditMode}>edit</Button>
         </div>
       )}
       <div>

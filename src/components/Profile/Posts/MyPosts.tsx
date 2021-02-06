@@ -2,6 +2,8 @@ import React from "react";
 import Post from "./Post/Post";
 import { AddPostFormValuesType, MyPost } from "./MyPost";
 import { PostType } from "../../../types/types";
+import { Input } from "antd";
+import { Checkbox } from "../../Common/FormsControls/FormsControls";
 
 export type MapPropsType = {
   post: Array<PostType>;
@@ -20,6 +22,7 @@ const MyPosts: React.FC<MapPropsType & DispatchPropsType> = React.memo(
     return (
       <div>
         <MyPost onSubmit={onSubmit} newPostText={""} />
+
         <div>{postsElements}</div>
       </div>
     );

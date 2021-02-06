@@ -37,13 +37,14 @@ import Breadcrumb from "antd/lib/breadcrumb/Breadcrumb";
 import s from "./components/Navbar/Nav.module.css";
 import { Avatar, Col, Image, Row } from "antd";
 import { AppHeader } from "./components/Header/Header";
+
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
 );
 const ProfileContainer = React.lazy(
   () => import("./components/Profile/ProfileContainer")
 );
-
+const ChatPage = React.lazy(() => import("./pages/chat/chatPage"));
 type MapPropsType = ReturnType<typeof mapStateToProps>;
 type DispatchPropsType = {
   initializeApp: () => void;
@@ -51,24 +52,24 @@ type DispatchPropsType = {
 
 const SuspendedDialogs = withSuspense(DialogsContainer);
 const SuspendedProfile = withSuspense(ProfileContainer);
+const ChatPageSuspended = withSuspense(ChatPage);
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
-  catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
-    alert("Some error Occurred");
-    // console.error(promiseRejectionEvent);
-  };
+  // catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
+  //   alert("Some error occured");
+  // };
 
   componentDidMount() {
     this.props.initializeApp();
-    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    // window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener(
-      "unhandledrejection",
-      this.catchAllUnhandledErrors
-    );
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener(
+  //     "unhandledrejection",
+  //     this.catchAllUnhandledErrors
+  //   );
+  // }
 
   render() {
     if (!this.props.initialized) {
@@ -132,6 +133,10 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                     {" "}
                     <Link to="/developers">Developers</Link>
                   </Menu.Item>
+                  <Menu.Item key="4">
+                    {" "}
+                    <Link to="/chat">Chat</Link>
+                  </Menu.Item>
                 </SubMenu>
                 <SubMenu
                   key="sub2"
@@ -176,6 +181,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                   <Route exact component={News} path="/news" />
                   <Route exact component={Music} path="/music" />
                   <Route exact component={Settings} path="/settings" />
+                  <Route exact component={ChatPageSuspended} path="/chat" />
                   <Route
                     exact
                     render={() => <UsersContainer pageTitle={"Самураи"} />}
@@ -209,7 +215,7 @@ let AppContainer = compose<ComponentType>(
 
 export const SamuraiJSApp: React.FC = () => {
   return (
-    <HashRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Provider store={store}>
         <Suspense fallback={<div>Loading... </div>}>
           <AppContainer />
