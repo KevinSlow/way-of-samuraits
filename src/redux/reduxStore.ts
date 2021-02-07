@@ -9,6 +9,7 @@ import { reducer as formReducer } from "redux-form";
 import appReducer, { actions } from "./app-reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { compose } from "redux";
+import chatReducer from "./chatReducer";
 let rootReducer = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,
@@ -17,6 +18,7 @@ let rootReducer = combineReducers({
   auth: authReducer,
   form: formReducer,
   app: appReducer,
+  chat: chatReducer,
 });
 
 type RootReducerType = typeof rootReducer; // (globalstate: AppStateType) => AppStateType
