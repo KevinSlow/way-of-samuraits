@@ -52,7 +52,7 @@ export const chatAPI = {
     callback: MessagesReceivedSubscriberType | StatusChangedSubscriberType
   ) {
     // @ts-ignore
-    subscribers.push(callback);
+    subscribers[eventName].push(callback);
     return () => {
       // @ts-ignore
       subscribers = subscribers[eventName].filter((s) => s !== callback);
@@ -82,10 +82,10 @@ export const chatAPI = {
   },
 };
 export type MessagesReceivedSubscriberType = (
-  messages: ChatMessageType[]
+  messages: ChatMessageAPIType[]
 ) => void;
 export type StatusChangedSubscriberType = (status: StatusType) => void;
-export type ChatMessageType = {
+export type ChatMessageAPIType = {
   message: string;
   photo: string;
   userId: number;

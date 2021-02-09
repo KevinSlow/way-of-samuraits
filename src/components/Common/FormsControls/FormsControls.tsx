@@ -3,7 +3,7 @@ import s from "./FormsControls.module.css";
 import { FieldValidatorType } from "../../../utils/Validators/validators";
 import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
 
-import { Input } from "antd";
+import { Checkbox, Input } from "antd";
 
 type FormControlPropsType = {
   meta: WrappedFieldMetaProps;
@@ -42,11 +42,12 @@ export const MyInput: React.FC<WrappedFieldProps> = (props) => {
     </FormControl>
   );
 };
-export const Checkbox = (props: any) => {
+
+export const CheckboxItem = () => {
   return (
-    <FormControl {...props}>
-      <Checkbox {...props} />
-    </FormControl>
+    <div>
+      <Checkbox />
+    </div>
   );
 };
 export type LoginFormPropertiesType =

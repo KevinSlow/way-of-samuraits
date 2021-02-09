@@ -3,7 +3,6 @@ import Post from "./Post/Post";
 import { AddPostFormValuesType, MyPost } from "./MyPost";
 import { PostType } from "../../../types/types";
 import { Input } from "antd";
-import { Checkbox } from "../../Common/FormsControls/FormsControls";
 
 export type MapPropsType = {
   post: Array<PostType>;

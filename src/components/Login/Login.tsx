@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import {
+  CheckboxItem,
   CreateField,
   GetStringKeys,
   MyInput,
@@ -42,7 +43,7 @@ const LoginForm: React.FC<
         "",
         "rememberMe",
         [],
-        MyInput,
+        CheckboxItem,
         { type: "checkbox" },
         "remember Me"
       )}
