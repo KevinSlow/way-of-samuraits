@@ -24,6 +24,8 @@ const ChatPage: React.FC = () => {
 
 const Chat: React.FC = () => {
   const Dispatch = useDispatch();
+  const status = useSelector((state: AppState) => state.chat.status);
+
   useEffect(() => {
     Dispatch(startMessagesListening());
     return () => {
@@ -33,8 +35,14 @@ const Chat: React.FC = () => {
 
   return (
     <div>
-      <Messages />
-      <AddMessageForm />
+      {status === "error" ? (
+        <div>Some error occured. Please refresh the page</div>
+      ) : (
+        <>
+          <Messages />
+          <AddMessageForm />
+        </>
+      )}
     </div>
   );
 };
@@ -70,6 +78,8 @@ const AddMessageForm: React.FC = () => {
     "pending"
   );
 
+  const status = useSelector((state: AppState) => state.chat.status);
+
   const sendMessageHandler = () => {
     if (!message) {
       return;
@@ -87,7 +97,7 @@ const AddMessageForm: React.FC = () => {
         />
       </div>
       <div>
-        <button disabled={false} onClick={sendMessageHandler}>
+        <button disabled={status !== "ready"} onClick={sendMessageHandler}>
           send
         </button>
       </div>

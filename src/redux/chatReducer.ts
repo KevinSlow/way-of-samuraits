@@ -1,10 +1,10 @@
-import { chatAPI, ChatMessageType } from "../api/chatAPI";
+import { chatAPI, ChatMessageType, StatusType } from "../api/chatAPI";
 import store, { BaseThunkType, InferActionsTypes } from "./reduxStore";
-import { Dispatch } from "react";
 import { FormAction } from "redux-form";
 
 let initialState = {
   messages: [] as ChatMessageType[],
+  status: "pending" as StatusType,
 };
 
 const chatReducer = (
@@ -17,6 +17,11 @@ const chatReducer = (
         ...state,
         messages: [...state.messages, ...action.payload.messages],
       };
+    case "SN/chat/STATUS_CHANGED":
+      return {
+        ...state,
+        status: action.payload.status,
+      };
   }
   return state;
 };
@@ -26,6 +31,11 @@ export const actions = {
     ({
       type: "SN/chat/MESSAGES_RECEIVED",
       payload: { messages },
+    } as const),
+  statusChanged: (status: StatusType) =>
+    ({
+      type: "SN/chat/STATUS_CHANGED",
+      payload: { status },
     } as const),
 };
 
@@ -41,12 +51,25 @@ const newMessageHandlerCreator = (dispatch: typeof store.dispatch) => {
   return _newMessageHandler;
 };
 
+let _statusChangedHandler: ((status: StatusType) => void) | null = null;
+
+const statusChangedHandlerCreator = (dispatch: typeof store.dispatch) => {
+  if (_statusChangedHandler === null) {
+    _statusChangedHandler = (status) => {
+      dispatch(actions.statusChanged(status));
+    };
+  }
+  return _statusChangedHandler;
+};
+
 export const startMessagesListening = (): AuthThunks => async (dispatch) => {
   chatAPI.start();
-  chatAPI.subscribe(newMessageHandlerCreator(dispatch));
+  chatAPI.subscribe("message-received", newMessageHandlerCreator(dispatch));
+  chatAPI.subscribe("status-changed", statusChangedHandlerCreator(dispatch));
 };
 export const stopMessagesListening = (): AuthThunks => async (dispatch) => {
-  chatAPI.unsubscribe(newMessageHandlerCreator(dispatch));
+  chatAPI.unsubscribe("message-received", newMessageHandlerCreator(dispatch));
+  chatAPI.unsubscribe("status-changed", statusChangedHandlerCreator(dispatch));
   chatAPI.stop();
 };
 export const sendMessage = (message: string): AuthThunks => async (
