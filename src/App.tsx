@@ -77,31 +77,6 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
     }
 
     return (
-      // <div className="app-wrapper">
-      //   <HeaderContainer />
-      //   <Nav />
-      //   <div className="app-wrapper-content">
-      //     <Switch>
-      //       <Route exact render={() => <Redirect to={"/profile"} />} path="/" />
-      //       <Route exact render={() => <SuspendedDialogs />} path="/dialogs" />
-      //       <Route
-      //         exact
-      //         render={() => <SuspendedProfile />}
-      //         path="/profile/:userId?"
-      //       />
-      //       <Route exact component={News} path="/news" />
-      //       <Route exact component={Music} path="/music" />
-      //       <Route exact component={Settings} path="/settings" />
-      //       <Route
-      //         exact
-      //         render={() => <UsersContainer pageTitle={"Самураи"} />}
-      //         path="/users"
-      //       />
-      //       <Route exact render={withSuspense(LoginPage)} path="/login" />
-      //       <Route exact render={() => <div>404 Not Found</div>} path="*" />
-      //     </Switch>
-      //   </div>
-      // </div>
       <Layout>
         <AppHeader />
         <Content style={{ padding: "0 50px" }}>
